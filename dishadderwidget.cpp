@@ -9,7 +9,7 @@ DishAdderWidget::DishAdderWidget(QWidget *parent, JsonDownloader *jsonLoader)
     , addButton(new QPushButton("Добавить"))
 {
     ui->setupUi(this);
-    ui->tagsEdit->setValidator(new QRegExpValidator(QRegExp("([a-z]+,)*([a-z]+)")));
+    ui->tagsEdit->setValidator(new QRegExpValidator(QRegExp("(([a-z]+ )*([a-z]+),)*(([a-z]+ )*([a-z]+))")));
 
     if (jsonLoader == nullptr) {
         loader = new JsonDownloader;
@@ -76,6 +76,7 @@ QJsonObject DishAdderWidget::getInfo()
     res["cost"] = ui->priceSpinBox->value();
     res["describe"] = ui->descriptionEdit->toPlainText();
     res["tags"] = QJsonArray::fromStringList(ui->tagsEdit->text().split(","));
+    res["photo"] = ui->photoEdit->text();
     QJsonArray ingredientsArray;
     for (int i = 0; i < ui->tableWidget->rowCount() - 1; i++) {
         QJsonObject ingredientObj = static_cast<IngredientSelector*>(ui->tableWidget->cellWidget(i,0))->getInfo();

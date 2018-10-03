@@ -30,5 +30,5 @@ void IngredientWidget::setImage(QPixmap pixmap)
 
 void IngredientWidget::loadFromJSON(const QJsonObject &json, JsonDownloader &loader)
 {
-    setTitle(json["title"].toString());
+    setTitle(loader.getIngredientById(json["id"].toInt())["title"].toString());
 }
