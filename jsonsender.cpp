@@ -21,6 +21,16 @@ void JsonSender::sendJsonTo(const QUrl &url, const QJsonObject &json)
     manager->post(request, data);
 }
 
+void JsonSender::addDish(const QJsonObject &json)
+{
+    sendJsonTo(QUrl("http://api.torianik.online:5000/add/dish"), json);
+}
+
+void JsonSender::addIngredent(const QJsonObject &json)
+{
+    sendJsonTo(QUrl("http://api.torianik.online:5000/add/ingredient"), json);
+}
+
 void JsonSender::onJsonSent(QNetworkReply *reply)
 {
     if (reply->error()) {

@@ -16,6 +16,8 @@ public:
     explicit JsonSender(QObject *parent = nullptr);
 
     void sendJsonTo(const QUrl &url, const QJsonObject &json);
+    void addDish(const QJsonObject &json);
+    void addIngredent(const QJsonObject &json);
 signals:
     void jsonSent(bool);
 public slots:

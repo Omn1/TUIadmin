@@ -34,7 +34,8 @@ SOURCES += \
     warehousetable.cpp \
     dishadderwidget.cpp \
     ingredientselector.cpp \
-    jsonsender.cpp
+    jsonsender.cpp \
+    ingredientadderwidget.cpp
 
 HEADERS += \
         orderwidget.h \
@@ -47,14 +48,16 @@ HEADERS += \
     warehousetable.h \
     dishadderwidget.h \
     ingredientselector.h \
-    jsonsender.h
+    jsonsender.h \
+    ingredientadderwidget.h
 
 FORMS += \
     ingredientwidget.ui \
     orderinfowidget.ui \
     dishinfowidget.ui \
     dishadderwidget.ui \
-    ingredientselector.ui
+    ingredientselector.ui \
+    ingredientadderwidget.ui
 
 CONFIG += mobility
 MOBILITY = 

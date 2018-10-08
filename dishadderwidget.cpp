@@ -65,7 +65,7 @@ void DishAdderWidget::onAddButtonClicked()
 
 void DishAdderWidget::onSendButtonClicked()
 {
-    jsonSender->sendJsonTo(QUrl("http://api.torianik.online:5000/add/dish"),getInfo());
+    jsonSender->addDish(getInfo());
 }
 
 QJsonObject DishAdderWidget::getInfo()

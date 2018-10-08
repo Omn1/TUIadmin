@@ -5,6 +5,7 @@
 #include "warehousetable.h"
 #include "ingredientselector.h"
 #include "dishadderwidget.h"
+#include "ingredientadderwidget.h"
 #include <QApplication>
 #include <QScrollArea>
 #include <QVBoxLayout>
@@ -46,6 +47,8 @@ int main(int argc, char *argv[])
     DishAdderWidget *dishAdder = new DishAdderWidget(nullptr, loader);
     dishAdder->show();
 
+    IngredientAdderWidget *ingredientAdder = new IngredientAdderWidget(nullptr, loader);
+    ingredientAdder->show();
 
     loader->start();
     //table->setDisplayedOrder(23);
