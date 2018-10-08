@@ -18,6 +18,7 @@ public:
     void sendJsonTo(const QUrl &url, const QJsonObject &json);
     void addDish(const QJsonObject &json);
     void addIngredent(const QJsonObject &json);
+    void supplyIngredient(const QJsonObject &json);
 signals:
     void jsonSent(bool);
 public slots:

@@ -6,6 +6,7 @@
 #include "ingredientselector.h"
 #include "dishadderwidget.h"
 #include "ingredientadderwidget.h"
+#include "ingredientsupplierwidget.h"
 #include <QApplication>
 #include <QScrollArea>
 #include <QVBoxLayout>
@@ -49,6 +50,9 @@ int main(int argc, char *argv[])
 
     IngredientAdderWidget *ingredientAdder = new IngredientAdderWidget(nullptr, loader);
     ingredientAdder->show();
+
+    IngredientSupplierWidget *supplier = new IngredientSupplierWidget(nullptr, loader);
+    supplier->show();
 
     loader->start();
     //table->setDisplayedOrder(23);

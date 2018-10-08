@@ -31,6 +31,11 @@ void JsonSender::addIngredent(const QJsonObject &json)
     sendJsonTo(QUrl("http://api.torianik.online:5000/add/ingredient"), json);
 }
 
+void JsonSender::supplyIngredient(const QJsonObject &json)
+{
+    sendJsonTo(QUrl("http://api.torianik.online:5000/supply"), json);
+}
+
 void JsonSender::onJsonSent(QNetworkReply *reply)
 {
     if (reply->error()) {
