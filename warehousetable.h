@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QTableWidget>
 #include "jsondownloader.h"
+#include "jsonsender.h"
 
 class WarehouseTable : public QWidget
 {
@@ -21,6 +22,7 @@ private:
     QVBoxLayout *mainLayout;
     QTableWidget *tableWidget;
     JsonDownloader *loader;
+    JsonSender *jsonSender;
 };
 
 #endif // WAREHOUSETABLE_H

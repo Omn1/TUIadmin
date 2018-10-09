@@ -5,7 +5,14 @@ JsonSender::JsonSender(QObject *parent)
     , manager(new QNetworkAccessManager)
 {
     request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
+    simple_request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
     connect(manager, &QNetworkAccessManager::finished, this, &JsonSender::onJsonSent);
+}
+
+void JsonSender::makeGetRequest(const QUrl &url)
+{
+    simple_request.setUrl(url);
+    manager->get(simple_request);
 }
 
 void JsonSender::sendJsonTo(const QUrl &url, const QJsonObject &json)
@@ -34,6 +41,11 @@ void JsonSender::addIngredent(const QJsonObject &json)
 void JsonSender::supplyIngredient(const QJsonObject &json)
 {
     sendJsonTo(QUrl("http://api.torianik.online:5000/supply"), json);
+}
+
+void JsonSender::deleteSupply(int supply_id)
+{
+    makeGetRequest(QUrl("http://api.torianik.online:5000/delete/supply/"+QString::number(supply_id)));
 }
 
 void JsonSender::onJsonSent(QNetworkReply *reply)
