@@ -23,6 +23,7 @@ public:
     explicit JsonDownloader(QObject *parent = nullptr);
 
     QJsonArray getOrders();
+    QJsonArray getWarehouseInfo();
     QJsonObject getDishById(int id);
     QJsonObject getIngredientById(int id);
     QPixmap getPixmap(const QString &name);
@@ -34,6 +35,7 @@ public slots:
     void onDownloadedIngredients(QNetworkReply *reply);
     void onDownloadedImages(QNetworkReply *reply);
     void onDownloadedPixmap(QNetworkReply *reply);
+    void onDownloadedWarehouseInfo(QNetworkReply *reply);
 
 signals:
     void updateReady();
@@ -48,6 +50,7 @@ private:
     void getDishes();
     void getIngredientsFromServer();
     void getOrdersFromServer();
+    void getWarehouseInfoFromServer();
 
     bool started;
     bool was_updated;
@@ -55,16 +58,19 @@ private:
     QString updateOrdersHash;
     QString updateDishesHash;
     QString updateIngredientsHash;
+    QString updateWarehouseHash;
     QString updateImgHash;
 
     QString currentOrdersHash;
     QString currentDishesHash;
     QString currentIngredientsHash;
+    QString currentWarehouseHash;
     QString currentImgHash;
 
     QJsonArray dishList;
     QJsonArray orderList;
     QJsonArray ingredientList;
+    QJsonArray warehouseList;
 
     QStringList imageNames;
     int cur_img;

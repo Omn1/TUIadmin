@@ -26,7 +26,7 @@ QJsonObject IngredientSelector::getInfo()
     QJsonObject res;
     res["mass"] = ui->massSpinBox->value();
     res["id"] = ui->idSpinBox->value();
-    res["title"] = loader->getIngredientById(ui->idSpinBox->value())["title"];
+    //res["title"] = loader->getIngredientById(ui->idSpinBox->value())["title"];
     return res;
 }
 

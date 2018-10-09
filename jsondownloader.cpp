@@ -17,6 +17,11 @@ QJsonArray JsonDownloader::getOrders()
     return orderList;
 }
 
+QJsonArray JsonDownloader::getWarehouseInfo()
+{
+    return warehouseList;
+}
+
 QJsonObject JsonDownloader::getDishById(int id)
 {
     for (int i = 0; i < dishList.size(); i++)
@@ -73,6 +78,7 @@ void JsonDownloader::onGetUpdateInfo(QNetworkReply *reply)
     updateDishesHash = json["dishes_hash"].toString();
     updateOrdersHash = json["orders_hash"].toString();
     updateIngredientsHash = json["ingredient_hash"].toString();
+    updateWarehouseHash = json["supplies_hash"].toString();
 
     getUpdate();
 }
@@ -190,6 +196,26 @@ void JsonDownloader::onDownloadedPixmap(QNetworkReply *reply)
     getPixmapFromServer();
 }
 
+void JsonDownloader::onDownloadedWarehouseInfo(QNetworkReply *reply)
+{
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedWarehouseInfo(QNetworkReply*)));
+
+    if(reply->error())
+    {
+        qDebug() << reply->errorString() << "\n";
+        getWarehouseInfoFromServer();
+        return;
+    }
+
+    QByteArray answer = reply->readAll();
+
+    QJsonObject response = QJsonDocument::fromJson(answer).object();
+
+    warehouseList = response["res"].toArray();
+
+    getUpdate();
+}
+
 void JsonDownloader::getUpdate()
 {
     if (updateImgHash != currentImgHash)
@@ -207,6 +233,9 @@ void JsonDownloader::getUpdate()
     else if (updateOrdersHash != currentOrdersHash)
     {
         getOrdersFromServer();
+    }
+    else if(updateWarehouseHash != currentWarehouseHash){
+        getWarehouseInfoFromServer();
     }
     else{
         if(was_updated)
@@ -278,5 +307,15 @@ void JsonDownloader::getOrdersFromServer()
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedOrders(QNetworkReply*)));
     request.setUrl(QUrl("http://api.torianik.online:5000/get/orders"));
+    manager->get(request);
+}
+
+void JsonDownloader::getWarehouseInfoFromServer()
+{
+    qDebug() << "getWarehouse\n";
+    currentWarehouseHash = updateWarehouseHash;
+    was_updated = 1;
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedWarehouseInfo(QNetworkReply*)));
+    request.setUrl(QUrl("http://api.torianik.online:5000/get/goods"));
     manager->get(request);
 }

@@ -54,6 +54,9 @@ int main(int argc, char *argv[])
     IngredientSupplierWidget *supplier = new IngredientSupplierWidget(nullptr, loader);
     supplier->show();
 
+    WarehouseTable *warehouseTable = new WarehouseTable(nullptr, loader);
+    warehouseTable->show();
+
     loader->start();
     //table->setDisplayedOrder(23);
     /*//vLayout->addWidget(table);
