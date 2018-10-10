@@ -20,7 +20,7 @@ class JsonDownloader : public QObject
 {
     Q_OBJECT
 public:
-    explicit JsonDownloader(QObject *parent = nullptr);
+    explicit JsonDownloader(QObject *parent = nullptr, bool downloadPhotosFlag = true);
 
     QJsonArray getOrders();
     QJsonArray getWarehouseInfo();
@@ -28,6 +28,8 @@ public:
     QJsonObject getIngredientById(int id);
     QPixmap getPixmap(const QString &name);
     void start();
+
+    bool downloadPhotosFlag;
 public slots:
     void onGetUpdateInfo(QNetworkReply *reply);
     void onDownloadedOrders(QNetworkReply *reply);

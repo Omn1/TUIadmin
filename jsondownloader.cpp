@@ -2,8 +2,9 @@
 #include <QDebug>
 #include <QSslSocket>
 
-JsonDownloader::JsonDownloader(QObject *parent)
+JsonDownloader::JsonDownloader(QObject *parent, bool downloadPhotosFlag)
     : QObject(parent)
+    , downloadPhotosFlag(downloadPhotosFlag)
     , started(0)
     , was_updated(0)
     , cur_img(-1)
@@ -218,7 +219,7 @@ void JsonDownloader::onDownloadedWarehouseInfo(QNetworkReply *reply)
 
 void JsonDownloader::getUpdate()
 {
-    if (updateImgHash != currentImgHash)
+    if (downloadPhotosFlag && updateImgHash != currentImgHash)
     {
         getImages();
     }
