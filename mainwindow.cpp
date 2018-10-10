@@ -52,9 +52,10 @@ void MainWindow::openMainMenu()
 void MainWindow::openEditMenu()
 {
     EditMenuWidget *editMenu = new EditMenuWidget;
+    QWidget *wrappedEditMenu = makeWrappedWidget(editMenu);
     connect(editMenu->addDishButton, &QPushButton::clicked, this, &MainWindow::openDishAdder);
     connect(editMenu->addIngredientButton, &QPushButton::clicked, this, &MainWindow::openIngredientAdder);
-    setCentralWidget(editMenu);
+    setCentralWidget(wrappedEditMenu);
 }
 
 QWidget * MainWindow::makeWrappedWidget(QWidget *widget)
