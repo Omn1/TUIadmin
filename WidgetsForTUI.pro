@@ -36,7 +36,10 @@ SOURCES += \
     ingredientselector.cpp \
     jsonsender.cpp \
     ingredientadderwidget.cpp \
-    ingredientsupplierwidget.cpp
+    ingredientsupplierwidget.cpp \
+    mainmenuwidget.cpp \
+    mainwindow.cpp \
+    editmenuwidget.cpp
 
 HEADERS += \
         orderwidget.h \
@@ -51,7 +54,10 @@ HEADERS += \
     ingredientselector.h \
     jsonsender.h \
     ingredientadderwidget.h \
-    ingredientsupplierwidget.h
+    ingredientsupplierwidget.h \
+    mainmenuwidget.h \
+    mainwindow.h \
+    editmenuwidget.h
 
 FORMS += \
     ingredientwidget.ui \
@@ -60,7 +66,9 @@ FORMS += \
     dishadderwidget.ui \
     ingredientselector.ui \
     ingredientadderwidget.ui \
-    ingredientsupplierwidget.ui
+    ingredientsupplierwidget.ui \
+    mainmenuwidget.ui \
+    editmenuwidget.ui
 
 CONFIG += mobility
 MOBILITY = 

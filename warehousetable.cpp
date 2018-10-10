@@ -18,6 +18,7 @@ WarehouseTable::WarehouseTable(QWidget *parent, JsonDownloader *jsonLoader)
     }
 
     setupContents();
+    onNewWarehouseInfo();
 }
 
 void WarehouseTable::onNewWarehouseInfo()

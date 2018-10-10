@@ -7,6 +7,7 @@
 #include "dishadderwidget.h"
 #include "ingredientadderwidget.h"
 #include "ingredientsupplierwidget.h"
+#include "mainwindow.h"
 #include <QApplication>
 #include <QScrollArea>
 #include <QVBoxLayout>
@@ -37,7 +38,7 @@ int main(int argc, char *argv[])
 
     vLayout->addWidget(treeWidget);
 */
-    JsonDownloader *loader = new JsonDownloader;
+    /*JsonDownloader *loader = new JsonDownloader;
 
     OrderTable *table = new OrderTable(nullptr,loader);
     table->show();
@@ -58,6 +59,9 @@ int main(int argc, char *argv[])
     warehouseTable->show();
 
     loader->start();
+    */
+    MainWindow *mainWindow = new MainWindow;
+    mainWindow->show();
     //table->setDisplayedOrder(23);
     /*//vLayout->addWidget(table);
 

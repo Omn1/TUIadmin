@@ -48,6 +48,8 @@ OrderTable::OrderTable(QWidget *parent, JsonDownloader *jsonloader)
     else{
         connect(loader, &JsonDownloader::updateReady, this, &OrderTable::onNewOrders);
     }
+
+    onNewOrders();
 }
 
 void OrderTable::reloadOrders()

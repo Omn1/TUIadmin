@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Поставить ингредиент на склад</string>
   </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
