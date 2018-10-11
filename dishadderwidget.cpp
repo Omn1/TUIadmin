@@ -31,17 +31,18 @@ DishAdderWidget::~DishAdderWidget()
 
 void DishAdderWidget::onAddButtonClicked()
 {
-    ui->tableWidget->insertRow(0);
+    int new_row = ui->tableWidget->rowCount() - 1;
+    ui->tableWidget->insertRow(new_row);
     IngredientSelector *newSelector = new IngredientSelector(nullptr, loader);
-    ui->tableWidget->setRowHeight(0, newSelector->height());
-    ui->tableWidget->setCellWidget(0, 0, newSelector);
+    ui->tableWidget->setRowHeight(new_row, newSelector->height());
+    ui->tableWidget->setCellWidget(new_row, 0, newSelector);
 
     QPushButton *removeThisButton = new QPushButton("Удалить");
 
     QTableWidgetItem *item = new QTableWidgetItem;
-    ui->tableWidget->setItem(0, 0, item);
+    ui->tableWidget->setItem(new_row, 0, item);
 
-    ui->tableWidget->setCellWidget(0, 1, removeThisButton);
+    ui->tableWidget->setCellWidget(new_row, 1, removeThisButton);
 
     connect(removeThisButton, &QPushButton::clicked, [item,this]{
         int removedRow = item->row();
