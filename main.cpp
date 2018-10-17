@@ -8,6 +8,7 @@
 #include "ingredientadderwidget.h"
 #include "ingredientsupplierwidget.h"
 #include "mainwindow.h"
+#include "statisticsengine.h"
 #include <QApplication>
 #include <QScrollArea>
 #include <QVBoxLayout>

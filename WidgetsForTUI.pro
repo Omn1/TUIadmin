@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets network
+QT       += core gui widgets network charts
 
 TARGET = WidgetsForTUI
 TEMPLATE = app
@@ -39,7 +39,8 @@ SOURCES += \
     ingredientsupplierwidget.cpp \
     mainmenuwidget.cpp \
     mainwindow.cpp \
-    editmenuwidget.cpp
+    editmenuwidget.cpp \
+    statisticsengine.cpp
 
 HEADERS += \
         orderwidget.h \
@@ -57,7 +58,8 @@ HEADERS += \
     ingredientsupplierwidget.h \
     mainmenuwidget.h \
     mainwindow.h \
-    editmenuwidget.h
+    editmenuwidget.h \
+    statisticsengine.h
 
 FORMS += \
     ingredientwidget.ui \
