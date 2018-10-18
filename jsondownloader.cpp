@@ -23,6 +23,11 @@ QJsonArray JsonDownloader::getWarehouseInfo()
     return warehouseList;
 }
 
+QJsonArray JsonDownloader::getDishes()
+{
+    return dishList;
+}
+
 QJsonObject JsonDownloader::getDishById(int id)
 {
     for (int i = 0; i < dishList.size(); i++)
@@ -111,7 +116,7 @@ void JsonDownloader::onDownloadedDishes(QNetworkReply *reply)
     if(reply->error())
     {
         qDebug() << reply->errorString() << "\n";
-        getDishes();
+        getDishesFromServer();
         return;
     }
 
@@ -229,7 +234,7 @@ void JsonDownloader::getUpdate()
     }
     else if (updateDishesHash != currentDishesHash)
     {
-        getDishes();
+        getDishesFromServer();
     }
     else if (updateOrdersHash != currentOrdersHash)
     {
@@ -281,7 +286,7 @@ void JsonDownloader::getImages()
     manager->get(request);
 }
 
-void JsonDownloader::getDishes()
+void JsonDownloader::getDishesFromServer()
 {
     qDebug () << "getDishes\n";
     currentDishesHash = updateDishesHash;

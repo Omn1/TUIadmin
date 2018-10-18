@@ -12,6 +12,7 @@ class DishWidget : public QTreeWidgetItem
 {
 public:
     explicit DishWidget(QTreeWidgetItem *parent = nullptr);
+    explicit DishWidget(QTreeWidget *parent = nullptr);
     ~DishWidget();
 
     void setupContents();

@@ -40,7 +40,8 @@ SOURCES += \
     mainmenuwidget.cpp \
     mainwindow.cpp \
     editmenuwidget.cpp \
-    statisticsengine.cpp
+    statisticsengine.cpp \
+    dishtable.cpp
 
 HEADERS += \
         orderwidget.h \
@@ -59,7 +60,8 @@ HEADERS += \
     mainmenuwidget.h \
     mainwindow.h \
     editmenuwidget.h \
-    statisticsengine.h
+    statisticsengine.h \
+    dishtable.h
 
 FORMS += \
     ingredientwidget.ui \

@@ -8,6 +8,7 @@ EditMenuWidget::EditMenuWidget(QWidget *parent) :
     ui->setupUi(this);
     addDishButton = ui->addDishButton;
     addIngredientButton = ui->addIngredientButton;
+    checkDishesButton = ui->checkDishesButton;
 }
 
 EditMenuWidget::~EditMenuWidget()

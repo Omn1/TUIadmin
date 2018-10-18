@@ -13,6 +13,17 @@ DishWidget::DishWidget(QTreeWidgetItem *parent)
     treeWidget()->setItemWidget(this, 0, contents);
 }
 
+DishWidget::DishWidget(QTreeWidget *parent)
+    : QTreeWidgetItem(parent)
+    , contents(new QWidget)
+    , mainLayout(new QVBoxLayout)
+    , toggleButton(new QToolButton)
+    , dishInfo(new DishInfoWidget)
+{
+    setupContents();
+    treeWidget()->setItemWidget(this, 0, contents);
+}
+
 DishWidget::~DishWidget()
 {
     //delete ui;

@@ -24,6 +24,7 @@ public:
 
     QJsonArray getOrders();
     QJsonArray getWarehouseInfo();
+    QJsonArray getDishes();
     QJsonObject getDishById(int id);
     QJsonObject getIngredientById(int id);
     QPixmap getPixmap(const QString &name);
@@ -49,7 +50,7 @@ private:
     void getUpdateInfo();
     void getPixmapFromServer();
     void getImages();
-    void getDishes();
+    void getDishesFromServer();
     void getIngredientsFromServer();
     void getOrdersFromServer();
     void getWarehouseInfoFromServer();

@@ -1,5 +1,5 @@
-#ifndef ORDERTABLE_H
-#define ORDERTABLE_H
+#ifndef DISHTABLE_H
+#define DISHTABLE_H
 
 #include <QWidget>
 #include <QScrollArea>
@@ -9,28 +9,29 @@
 #include <QHeaderView>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QPushButton>
 #include "orderwidget.h"
 #include "dishwidget.h"
 #include "jsondownloader.h"
+#include "statisticsengine.h"
 
-class OrderTable : public QWidget
+class DishTable : public QWidget
 {
     Q_OBJECT
 public:
-    explicit OrderTable(QWidget *parent = nullptr, JsonDownloader *loader = nullptr);
+    explicit DishTable(QWidget *parent = nullptr, JsonDownloader *loader = nullptr);
 
-    void reloadOrders();
-    void setDisplayedOrder(int displayedOrder);
+    void reloadDishes();
 signals:
 
 public slots:
-    void onNewOrders();
+    void onNewDishes();
 private:
     QVBoxLayout *mainLayout;
     QTreeWidget *treeWidget;
     JsonDownloader *loader;
-    QJsonArray orders;
-    int displayed_order_id;
+    StatisticsEngine *statEngine;
+    QJsonArray dishes;
 };
 
-#endif // ORDERTABLE_H
+#endif // DISHTABLE_H

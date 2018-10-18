@@ -5,7 +5,6 @@ OrderTable::OrderTable(QWidget *parent, JsonDownloader *jsonloader)
     : QWidget(parent)
     , mainLayout(new QVBoxLayout)
     , treeWidget(new QTreeWidget)
-    , scrollArea(new QScrollArea)
     , loader(jsonloader)
     , displayed_order_id(-1)
 {
@@ -18,6 +17,7 @@ OrderTable::OrderTable(QWidget *parent, JsonDownloader *jsonloader)
     treeWidget->setRootIsDecorated(false);
     treeWidget->setIndentation(0);
     treeWidget->setExpandsOnDoubleClick(false);
+    treeWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     //treeWidget->setStyleSheet("QTreeWidget::item { border-bottom: 1px solid black;}");
 
     mainLayout->addWidget(treeWidget);

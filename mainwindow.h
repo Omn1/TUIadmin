@@ -8,6 +8,7 @@
 #include "editmenuwidget.h"
 #include "jsondownloader.h"
 #include "ordertable.h"
+#include "dishtable.h"
 #include "warehousetable.h"
 #include "ingredientselector.h"
 #include "dishadderwidget.h"
@@ -26,6 +27,7 @@ public slots:
     void openMainMenu();
     void openEditMenu();
     void openOrderTable();
+    void openDishTable();
     void openWarehouseTable();
     void openSupplyWidget();
     void openDishAdder();

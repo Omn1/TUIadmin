@@ -39,6 +39,12 @@ void MainWindow::openOrderTable()
     setCentralWidget(orderTablePage);
 }
 
+void MainWindow::openDishTable()
+{
+    QWidget *dishTablePage = makeWrappedWidget(new DishTable(nullptr, loader));
+    setCentralWidget(dishTablePage);
+}
+
 void MainWindow::openMainMenu()
 {
     MainMenuWidget *mainMenu = new MainMenuWidget;
@@ -55,6 +61,7 @@ void MainWindow::openEditMenu()
     QWidget *wrappedEditMenu = makeWrappedWidget(editMenu);
     connect(editMenu->addDishButton, &QPushButton::clicked, this, &MainWindow::openDishAdder);
     connect(editMenu->addIngredientButton, &QPushButton::clicked, this, &MainWindow::openIngredientAdder);
+    connect(editMenu->checkDishesButton, &QPushButton::clicked, this, &MainWindow::openDishTable);
     setCentralWidget(wrappedEditMenu);
 }
 
