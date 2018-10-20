@@ -4,9 +4,11 @@
 OrderTable::OrderTable(QWidget *parent, JsonDownloader *jsonloader)
     : QWidget(parent)
     , mainLayout(new QVBoxLayout)
+    , orderTypeBox(new QComboBox)
     , treeWidget(new QTreeWidget)
     , loader(jsonloader)
     , displayed_order_id(-1)
+    , displayed_order_status(-1)
 {
     //treeWidget->setStyleSheet("OrderInfoWidget{border:1px solid red}");
     treeWidget->header()->hide();
@@ -20,6 +22,16 @@ OrderTable::OrderTable(QWidget *parent, JsonDownloader *jsonloader)
     treeWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     //treeWidget->setStyleSheet("QTreeWidget::item { border-bottom: 1px solid black;}");
 
+    orderTypeBox->addItem("Все активные заказы",-1);
+    orderTypeBox->addItem("Ожидают пожтверждения",0);
+    orderTypeBox->addItem("Ожидают начала приготовления",1);
+    orderTypeBox->addItem("Готовятся",2);
+    orderTypeBox->addItem("Ожидают доставки",3);
+    orderTypeBox->addItem("Доставляются",4);
+
+    connect(orderTypeBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &OrderTable::onNewOrders);
+
+    mainLayout->addWidget(orderTypeBox);
     mainLayout->addWidget(treeWidget);
     /*//treeWidget->addTopLevelItem(treeWidgetItem);
 
@@ -55,11 +67,12 @@ OrderTable::OrderTable(QWidget *parent, JsonDownloader *jsonloader)
 void OrderTable::reloadOrders()
 {
     treeWidget->clear();
-
+    displayed_order_status = orderTypeBox->itemData(orderTypeBox->currentIndex()).toInt();
     for (int i = 0; i < orders.size(); i++)
     {
         QJsonObject json = orders[i].toObject();
-        if(displayed_order_id == -1 || json["id"].toInt() == displayed_order_id)
+        if((displayed_order_id == -1 || json["id"].toInt() == displayed_order_id)
+            && (displayed_order_status == -1 || displayed_order_status == json["status"].toInt()))
         {
             OrderWidget *order = new OrderWidget(treeWidget);
             order->loadFromJSON(json, *loader);

@@ -9,6 +9,7 @@
 #include <QHeaderView>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QComboBox>
 #include "orderwidget.h"
 #include "dishwidget.h"
 #include "jsondownloader.h"
@@ -27,10 +28,12 @@ public slots:
     void onNewOrders();
 private:
     QVBoxLayout *mainLayout;
+    QComboBox *orderTypeBox;
     QTreeWidget *treeWidget;
     JsonDownloader *loader;
     QJsonArray orders;
     int displayed_order_id;
+    int displayed_order_status;
 };
 
 #endif // ORDERTABLE_H

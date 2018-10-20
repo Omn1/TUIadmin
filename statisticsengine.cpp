@@ -53,7 +53,7 @@ int StatisticsEngine::getDishOrdersByDate(int id, QString date)
         QJsonArray curDishes = orders[i].toObject()["dishes"].toArray();
         for (int j = 0; j < curDishes.size(); j++) {
             QJsonObject dish = curDishes[j].toObject();
-            if (dish["dish_id"].toInt() == id)
+            if (dish["id"].toInt() == id)
                 cou += dish["number"].toInt();
         }
     }

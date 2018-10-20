@@ -62,7 +62,7 @@ void OrderWidget::loadFromJSON(const QJsonObject &json, JsonDownloader &loader)
         dish->setFont(1, QFont("Sans Serif", 16));
         dish->setText(1, "Количество: "+QString::number(dishObj["number"].toInt()));
         //qDebug() << loader.getDishById(dishObj["dish_id"].toInt()) << "\n";
-        dish->loadFromJSON(loader.getDishById(dishObj["dish_id"].toInt()), loader);
+        dish->loadFromJSON(loader.getDishById(dishObj["id"].toInt()), loader);
     }
 }
 
