@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <QSslSocket>
 
-JsonDownloader::JsonDownloader(QObject *parent, bool downloadPhotosFlag)
+JsonDownloader::JsonDownloader(QObject *parent, bool downloadPhotosFlag, QString APIurl)
     : QObject(parent)
     , downloadPhotosFlag(downloadPhotosFlag)
     , started(0)
@@ -10,6 +10,7 @@ JsonDownloader::JsonDownloader(QObject *parent, bool downloadPhotosFlag)
     , cur_img(-1)
     , manager(new QNetworkAccessManager)
     , imgManager(new QNetworkAccessManager)
+    , APIurl(APIurl)
 {
     request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
     imgRequest.setSslConfiguration(QSslConfiguration::defaultConfiguration());
@@ -260,7 +261,7 @@ void JsonDownloader::getUpdateInfo()
     currentOrdersHash = updateOrdersHash;
     was_updated = 0;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onGetUpdateInfo(QNetworkReply*)));
-    request.setUrl(QUrl("http://api.torianik.online:5000/get/state_hashes"));
+    request.setUrl(QUrl(APIurl+"/get/state_hashes"));
     manager->get(request);
 }
 
@@ -274,7 +275,7 @@ void JsonDownloader::getPixmapFromServer()
     }
     QString pixmapName = imageNames[cur_img];
     connect(imgManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedPixmap(QNetworkReply*)));
-    imgRequest.setUrl(QUrl("http://api.torianik.online:5000/public/" + pixmapName));
+    imgRequest.setUrl(QUrl(APIurl+"/public/" + pixmapName));
     imgManager->get(imgRequest);
 }
 
@@ -284,7 +285,7 @@ void JsonDownloader::getImages()
     currentImgHash = updateImgHash;
     was_updated = 1;
     connect(imgManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedImages(QNetworkReply*)));
-    imgRequest.setUrl(QUrl("http://api.torianik.online:5000/get/images"));
+    imgRequest.setUrl(QUrl(APIurl+"/get/images"));
     imgManager->get(imgRequest);
 }
 
@@ -294,7 +295,7 @@ void JsonDownloader::getDishesFromServer()
     currentDishesHash = updateDishesHash;
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedDishes(QNetworkReply*)));
-    request.setUrl(QUrl("http://api.torianik.online:5000/get/dishes"));
+    request.setUrl(QUrl(APIurl+"/get/dishes"));
     manager->get(request);
 }
 
@@ -304,7 +305,7 @@ void JsonDownloader::getIngredientsFromServer()
     currentIngredientsHash = updateIngredientsHash;
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedIngredients(QNetworkReply*)));
-    request.setUrl(QUrl("http://api.torianik.online:5000/get/ingredients"));
+    request.setUrl(QUrl(APIurl+"/get/ingredients"));
     manager->get(request);
 }
 
@@ -314,7 +315,7 @@ void JsonDownloader::getOrdersFromServer()
     currentOrdersHash = updateOrdersHash;
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedOrders(QNetworkReply*)));
-    request.setUrl(QUrl("http://api.torianik.online:5000/get/orders"));
+    request.setUrl(QUrl(APIurl+"/get/orders"));
     manager->get(request);
 }
 
@@ -324,6 +325,6 @@ void JsonDownloader::getWarehouseInfoFromServer()
     currentWarehouseHash = updateWarehouseHash;
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedWarehouseInfo(QNetworkReply*)));
-    request.setUrl(QUrl("http://api.torianik.online:5000/get/goods"));
+    request.setUrl(QUrl(APIurl+"/get/goods"));
     manager->get(request);
 }

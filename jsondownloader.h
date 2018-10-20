@@ -20,7 +20,7 @@ class JsonDownloader : public QObject
 {
     Q_OBJECT
 public:
-    explicit JsonDownloader(QObject *parent = nullptr, bool downloadPhotosFlag = true);
+    explicit JsonDownloader(QObject *parent = nullptr, bool downloadPhotosFlag = true, QString APIurl = "http://xlvzero.tk:5000");
 
     QJsonArray getOrders();
     QJsonArray getWarehouseInfo();
@@ -80,6 +80,7 @@ private:
     std::map<QString, QPixmap> imgCache;
     QNetworkAccessManager *manager, *imgManager;
     QNetworkRequest request, imgRequest;
+    QString APIurl;
 };
 
 #endif // JSONDOWNLOADER_H
