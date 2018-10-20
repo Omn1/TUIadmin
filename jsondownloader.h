@@ -78,8 +78,8 @@ private:
     QStringList imageNames;
     int cur_img;
     std::map<QString, QPixmap> imgCache;
-    QNetworkAccessManager *manager;
-    QNetworkRequest request;
+    QNetworkAccessManager *manager, *imgManager;
+    QNetworkRequest request, imgRequest;
 };
 
 #endif // JSONDOWNLOADER_H
