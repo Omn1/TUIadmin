@@ -48,6 +48,11 @@ void JsonSender::deleteSupply(int supply_id)
     makeGetRequest(QUrl("http://api.torianik.online:5000/delete/supply/"+QString::number(supply_id)));
 }
 
+void JsonSender::deleteDish(int dish_id)
+{
+    makeGetRequest(QUrl("http://api.torianik.online:5000/delete/dish/"+QString::number(dish_id)));
+}
+
 void JsonSender::onJsonSent(QNetworkReply *reply)
 {
     if (reply->error()) {

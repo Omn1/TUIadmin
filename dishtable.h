@@ -13,6 +13,7 @@
 #include "orderwidget.h"
 #include "dishwidget.h"
 #include "jsondownloader.h"
+#include "jsonsender.h"
 #include "statisticsengine.h"
 
 class DishTable : public QWidget
@@ -30,6 +31,7 @@ private:
     QVBoxLayout *mainLayout;
     QTreeWidget *treeWidget;
     JsonDownloader *loader;
+    JsonSender *jsonSender;
     StatisticsEngine *statEngine;
     QJsonArray dishes;
 };

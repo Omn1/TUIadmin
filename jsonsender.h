@@ -21,6 +21,7 @@ public:
     void addIngredent(const QJsonObject &json);
     void supplyIngredient(const QJsonObject &json);
     void deleteSupply(int supply_id);
+    void deleteDish(int dish_id);
 signals:
     void jsonSent(bool);
 public slots:

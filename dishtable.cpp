@@ -5,10 +5,13 @@ DishTable::DishTable(QWidget *parent, JsonDownloader *jsonloader)
     , mainLayout(new QVBoxLayout)
     , treeWidget(new QTreeWidget)
     , loader(jsonloader)
+    , jsonSender(new JsonSender)
 {
     treeWidget->header()->hide();
     treeWidget->setAnimated(true);
     treeWidget->setColumnCount(3);
+    treeWidget->setColumnWidth(1,300);
+    treeWidget->setColumnWidth(2,300);
     treeWidget->setSelectionMode(QAbstractItemView::NoSelection);
     treeWidget->setFocusPolicy(Qt::NoFocus);
     treeWidget->setRootIsDecorated(false);
@@ -43,14 +46,21 @@ void DishTable::reloadDishes()
         DishWidget *dish = new DishWidget(treeWidget);
         dish->loadFromJSON(json, *loader);
         QPushButton *statsButton = new QPushButton("Смотреть статистику");
-        statsButton->setMinimumWidth(150);
+        statsButton->setFont(QFont("Sans serif",12));
         connect(statsButton, &QPushButton::clicked, [this,dish_id]{
             QChartView *cv = new QChartView(statEngine->getRecentDishOrdersChart(dish_id,7));
             cv->setRenderHint(QPainter::Antialiasing);
             cv->setMinimumSize(800,600);
             cv->show();
         });
+        QPushButton *deleteButton = new QPushButton("Удалить из меню");
+        deleteButton->setMaximumWidth(300);
+        deleteButton->setFont(QFont("Sans serif",12));
+        connect(deleteButton, &QPushButton::clicked, [this,dish_id]{
+            jsonSender->deleteDish(dish_id);
+        });
         treeWidget->setItemWidget(dish,1,statsButton);
+        treeWidget->setItemWidget(dish,2,deleteButton);
     }
 }
 
