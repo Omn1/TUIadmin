@@ -41,7 +41,8 @@ SOURCES += \
     mainwindow.cpp \
     editmenuwidget.cpp \
     statisticsengine.cpp \
-    dishtable.cpp
+    dishtable.cpp \
+    authenticationwidget.cpp
 
 HEADERS += \
         orderwidget.h \
@@ -61,7 +62,8 @@ HEADERS += \
     mainwindow.h \
     editmenuwidget.h \
     statisticsengine.h \
-    dishtable.h
+    dishtable.h \
+    authenticationwidget.h
 
 FORMS += \
     ingredientwidget.ui \
@@ -72,7 +74,8 @@ FORMS += \
     ingredientadderwidget.ui \
     ingredientsupplierwidget.ui \
     mainmenuwidget.ui \
-    editmenuwidget.ui
+    editmenuwidget.ui \
+    authenticationwidget.ui
 
 CONFIG += mobility
 MOBILITY = 

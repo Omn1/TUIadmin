@@ -13,7 +13,7 @@ class JsonSender : public QObject
 {
     Q_OBJECT
 public:
-    explicit JsonSender(QObject *parent = nullptr, QString APIurl = "http://xlvzero.tk:5000");
+    explicit JsonSender(QObject *parent = nullptr);
 
     void makeGetRequest(const QUrl &url);
     void sendJsonTo(const QUrl &url, const QJsonObject &json);
@@ -22,6 +22,10 @@ public:
     void supplyIngredient(const QJsonObject &json);
     void deleteSupply(int supply_id);
     void deleteDish(int dish_id);
+    void authenticate(const QString &login, const QString &password);
+    static QString loginInfo;
+    static QString APIurl;
+    QJsonObject lastAnswer;
 signals:
     void jsonSent(bool);
 public slots:
@@ -29,7 +33,6 @@ public slots:
 private:
     QNetworkAccessManager *manager;
     QNetworkRequest request, simple_request;
-    QString APIurl;
 };
 
 #endif // JSONSENDER_H

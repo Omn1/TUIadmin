@@ -2,7 +2,10 @@
 #include <QDebug>
 #include <QSslSocket>
 
-JsonDownloader::JsonDownloader(QObject *parent, bool downloadPhotosFlag, QString APIurl)
+QString JsonDownloader::loginInfo = "";
+QString JsonDownloader::APIurl = "http://xlvzero.tk:5000";
+
+JsonDownloader::JsonDownloader(QObject *parent, bool downloadPhotosFlag)
     : QObject(parent)
     , downloadPhotosFlag(downloadPhotosFlag)
     , started(0)
@@ -10,7 +13,6 @@ JsonDownloader::JsonDownloader(QObject *parent, bool downloadPhotosFlag, QString
     , cur_img(-1)
     , manager(new QNetworkAccessManager)
     , imgManager(new QNetworkAccessManager)
-    , APIurl(APIurl)
 {
     request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
     imgRequest.setSslConfiguration(QSslConfiguration::defaultConfiguration());
@@ -261,7 +263,7 @@ void JsonDownloader::getUpdateInfo()
     currentOrdersHash = updateOrdersHash;
     was_updated = 0;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onGetUpdateInfo(QNetworkReply*)));
-    request.setUrl(QUrl(APIurl+"/get/state_hashes"));
+    request.setUrl(QUrl(APIurl+"/get/state_hashes"+"?"+loginInfo));
     manager->get(request);
 }
 
@@ -275,7 +277,7 @@ void JsonDownloader::getPixmapFromServer()
     }
     QString pixmapName = imageNames[cur_img];
     connect(imgManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedPixmap(QNetworkReply*)));
-    imgRequest.setUrl(QUrl(APIurl+"/public/" + pixmapName));
+    imgRequest.setUrl(QUrl(APIurl+"/public/" + pixmapName+"?"+loginInfo));
     imgManager->get(imgRequest);
 }
 
@@ -285,7 +287,7 @@ void JsonDownloader::getImages()
     currentImgHash = updateImgHash;
     was_updated = 1;
     connect(imgManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedImages(QNetworkReply*)));
-    imgRequest.setUrl(QUrl(APIurl+"/get/images"));
+    imgRequest.setUrl(QUrl(APIurl+"/get/images"+"?"+loginInfo));
     imgManager->get(imgRequest);
 }
 
@@ -295,7 +297,7 @@ void JsonDownloader::getDishesFromServer()
     currentDishesHash = updateDishesHash;
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedDishes(QNetworkReply*)));
-    request.setUrl(QUrl(APIurl+"/get/dishes"));
+    request.setUrl(QUrl(APIurl+"/get/dishes"+"?"+loginInfo));
     manager->get(request);
 }
 
@@ -305,7 +307,7 @@ void JsonDownloader::getIngredientsFromServer()
     currentIngredientsHash = updateIngredientsHash;
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedIngredients(QNetworkReply*)));
-    request.setUrl(QUrl(APIurl+"/get/ingredients"));
+    request.setUrl(QUrl(APIurl+"/get/ingredients"+"?"+loginInfo));
     manager->get(request);
 }
 
@@ -315,7 +317,7 @@ void JsonDownloader::getOrdersFromServer()
     currentOrdersHash = updateOrdersHash;
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedOrders(QNetworkReply*)));
-    request.setUrl(QUrl(APIurl+"/get/orders"));
+    request.setUrl(QUrl(APIurl+"/get/orders"+"?"+loginInfo));
     manager->get(request);
 }
 
@@ -325,6 +327,6 @@ void JsonDownloader::getWarehouseInfoFromServer()
     currentWarehouseHash = updateWarehouseHash;
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedWarehouseInfo(QNetworkReply*)));
-    request.setUrl(QUrl(APIurl+"/get/goods"));
+    request.setUrl(QUrl(APIurl+"/get/goods"+"?"+loginInfo));
     manager->get(request);
 }

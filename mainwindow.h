@@ -14,6 +14,7 @@
 #include "dishadderwidget.h"
 #include "ingredientadderwidget.h"
 #include "ingredientsupplierwidget.h"
+#include "authenticationwidget.h"
 
 class MainWindow : public QMainWindow
 {
@@ -24,6 +25,7 @@ public:
 signals:
 
 public slots:
+    void openAuthenticationWidget();
     void openMainMenu();
     void openEditMenu();
     void openOrderTable();

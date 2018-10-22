@@ -4,8 +4,14 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , loader(new JsonDownloader)
 {
-    loader->start();
-    openMainMenu();
+    openAuthenticationWidget();
+}
+
+void MainWindow::openAuthenticationWidget()
+{
+    QWidget *authenticationWidget = new AuthenticationWidget;
+    connect(authenticationWidget, SIGNAL(authenticationPassed()), this, SLOT(openMainMenu()));
+    setCentralWidget(authenticationWidget);
 }
 
 void MainWindow::openWarehouseTable()
@@ -47,6 +53,7 @@ void MainWindow::openDishTable()
 
 void MainWindow::openMainMenu()
 {
+    loader->start();
     MainMenuWidget *mainMenu = new MainMenuWidget;
     connect(mainMenu->checkOrdersButton, &QPushButton::clicked, this, &MainWindow::openOrderTable);
     connect(mainMenu->editMenuButton, &QPushButton::clicked, this, &MainWindow::openEditMenu);

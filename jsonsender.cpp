@@ -1,9 +1,11 @@
 #include "jsonsender.h"
 
-JsonSender::JsonSender(QObject *parent, QString APIurl)
+QString JsonSender::loginInfo = "";
+QString JsonSender::APIurl = "http://xlvzero.tk:5000";
+
+JsonSender::JsonSender(QObject *parent)
     : QObject(parent)
     , manager(new QNetworkAccessManager)
-    , APIurl(APIurl)
 {
     request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
     simple_request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
@@ -31,27 +33,32 @@ void JsonSender::sendJsonTo(const QUrl &url, const QJsonObject &json)
 
 void JsonSender::addDish(const QJsonObject &json)
 {
-    sendJsonTo(QUrl(APIurl+"/add/dish"), json);
+    sendJsonTo(QUrl(APIurl+"/add/dish"+"?"+loginInfo), json);
 }
 
 void JsonSender::addIngredent(const QJsonObject &json)
 {
-    sendJsonTo(QUrl(APIurl+"/add/ingredient"), json);
+    sendJsonTo(QUrl(APIurl+"/add/ingredient"+"?"+loginInfo), json);
 }
 
 void JsonSender::supplyIngredient(const QJsonObject &json)
 {
-    sendJsonTo(QUrl(APIurl+"/supply"), json);
+    sendJsonTo(QUrl(APIurl+"/supply"+"?"+loginInfo), json);
 }
 
 void JsonSender::deleteSupply(int supply_id)
 {
-    makeGetRequest(QUrl(APIurl+"/delete/supply/"+QString::number(supply_id)));
+    makeGetRequest(QUrl(APIurl+"/delete/supply/"+QString::number(supply_id)+"?"+loginInfo));
 }
 
 void JsonSender::deleteDish(int dish_id)
 {
-    makeGetRequest(QUrl(APIurl+"/delete/dish/"+QString::number(dish_id)));
+    makeGetRequest(QUrl(APIurl+"/delete/dish/"+QString::number(dish_id)+"?"+loginInfo));
+}
+
+void JsonSender::authenticate(const QString &login, const QString &password)
+{
+    makeGetRequest(QUrl(APIurl+"/login?login="+login+"&password="+password));
 }
 
 void JsonSender::onJsonSent(QNetworkReply *reply)
@@ -61,5 +68,7 @@ void JsonSender::onJsonSent(QNetworkReply *reply)
         emit jsonSent(0);
         return;
     }
+    QByteArray answer = reply->readAll();
+    lastAnswer = QJsonDocument::fromJson(answer).object();
     emit jsonSent(1);
 }
