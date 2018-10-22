@@ -56,6 +56,16 @@ void JsonSender::deleteDish(int dish_id)
     makeGetRequest(QUrl(APIurl+"/delete/dish/"+QString::number(dish_id)+"?"+loginInfo));
 }
 
+void JsonSender::confirmOrder(int order_id)
+{
+    makeGetRequest(QUrl(APIurl+"/confirm/order/"+QString::number(order_id)+"?"+loginInfo));
+}
+
+void JsonSender::cookOrder(int order_id)
+{
+    makeGetRequest(QUrl(APIurl+"/cook/order/"+QString::number(order_id)+"?"+loginInfo));
+}
+
 void JsonSender::authenticate(const QString &login, const QString &password)
 {
     makeGetRequest(QUrl(APIurl+"/login?login="+login+"&password="+password));

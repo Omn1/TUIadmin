@@ -7,6 +7,7 @@ OrderTable::OrderTable(QWidget *parent, JsonDownloader *jsonloader)
     , orderTypeBox(new QComboBox)
     , treeWidget(new QTreeWidget)
     , loader(jsonloader)
+    , jsonSender(new JsonSender)
     , displayed_order_id(-1)
     , displayed_order_status(-1)
 {
@@ -81,13 +82,28 @@ void OrderTable::reloadOrders()
             order->setFont(1,QFont("Sans serif",16));
             QString statusText;
             int statusInt = json["status"].toInt();
+            int orderId = json["id"].toInt();
             if (statusInt == 0) {
                 statusText = "Ожидает подтверждения";
                 order->setBackgroundColor(1,QColor(255,0,0,127));
+                QPushButton *confirmButton = new QPushButton("Подтвердить");
+                confirmButton->setMaximumWidth(200);
+                confirmButton->setFont(QFont("Sans serif",16));
+                connect(confirmButton, &QPushButton::clicked, [this,orderId]{
+                    jsonSender->confirmOrder(orderId);
+                });
+                treeWidget->setItemWidget(order,2,confirmButton);
             }
             else if (statusInt == 1) {
                 statusText = "Готовится";
                 order->setBackgroundColor(1,QColor(255,255,0,127));
+                QPushButton *cookButton = new QPushButton("Приготовлено");
+                cookButton->setMaximumWidth(200);
+                cookButton->setFont(QFont("Sans serif",16));
+                connect(cookButton, &QPushButton::clicked, [this,orderId]{
+                    jsonSender->cookOrder(orderId);
+                });
+                treeWidget->setItemWidget(order,2,cookButton);
             }
             else if (statusInt == 2) {
                 statusText = "Ожидает доставки";

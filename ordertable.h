@@ -10,9 +10,11 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QComboBox>
+#include <QPushButton>
 #include "orderwidget.h"
 #include "dishwidget.h"
 #include "jsondownloader.h"
+#include "jsonsender.h"
 
 class OrderTable : public QWidget
 {
@@ -31,6 +33,7 @@ private:
     QComboBox *orderTypeBox;
     QTreeWidget *treeWidget;
     JsonDownloader *loader;
+    JsonSender *jsonSender;
     QJsonArray orders;
     int displayed_order_id;
     int displayed_order_status;

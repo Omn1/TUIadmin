@@ -22,6 +22,8 @@ public:
     void supplyIngredient(const QJsonObject &json);
     void deleteSupply(int supply_id);
     void deleteDish(int dish_id);
+    void confirmOrder(int order_id);
+    void cookOrder(int order_id);
     void authenticate(const QString &login, const QString &password);
     static QString loginInfo;
     static QString APIurl;
