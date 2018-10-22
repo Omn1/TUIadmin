@@ -13,7 +13,9 @@ OrderTable::OrderTable(QWidget *parent, JsonDownloader *jsonloader)
     //treeWidget->setStyleSheet("OrderInfoWidget{border:1px solid red}");
     treeWidget->header()->hide();
     treeWidget->setAnimated(true);
-    treeWidget->setColumnCount(2);
+    treeWidget->setColumnCount(3);
+    treeWidget->setColumnWidth(1,320);
+    treeWidget->setColumnWidth(2,200);
     treeWidget->setSelectionMode(QAbstractItemView::NoSelection);
     treeWidget->setFocusPolicy(Qt::NoFocus);
     treeWidget->setRootIsDecorated(false);
@@ -76,6 +78,27 @@ void OrderTable::reloadOrders()
         {
             OrderWidget *order = new OrderWidget(treeWidget);
             order->loadFromJSON(json, *loader);
+            order->setFont(1,QFont("Sans serif",16));
+            QString statusText;
+            int statusInt = json["status"].toInt();
+            if (statusInt == 0) {
+                statusText = "Ожидает подтверждения";
+                order->setBackgroundColor(1,QColor(255,0,0,127));
+            }
+            else if (statusInt == 1) {
+                statusText = "Готовится";
+                order->setBackgroundColor(1,QColor(255,255,0,127));
+            }
+            else if (statusInt == 2) {
+                statusText = "Ожидает доставки";
+                order->setBackgroundColor(1,QColor(127,255,0,127));
+            }
+            else if (statusInt == 3) {
+                statusText = "Доставляется";
+                order->setBackgroundColor(1,QColor(0,255,0,127));
+            }
+            order->setText(1,"Статус заказа:\n"+statusText);
+
         }
     }
 }
