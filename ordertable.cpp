@@ -24,10 +24,9 @@ OrderTable::OrderTable(QWidget *parent, JsonDownloader *jsonloader)
 
     orderTypeBox->addItem("Все активные заказы",-1);
     orderTypeBox->addItem("Ожидают пожтверждения",0);
-    orderTypeBox->addItem("Ожидают начала приготовления",1);
-    orderTypeBox->addItem("Готовятся",2);
-    orderTypeBox->addItem("Ожидают доставки",3);
-    orderTypeBox->addItem("Доставляются",4);
+    orderTypeBox->addItem("Готовятся",1);
+    orderTypeBox->addItem("Ожидают доставки",2);
+    orderTypeBox->addItem("Доставляются",3);
 
     connect(orderTypeBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &OrderTable::onNewOrders);
 
@@ -72,6 +71,7 @@ void OrderTable::reloadOrders()
     {
         QJsonObject json = orders[i].toObject();
         if((displayed_order_id == -1 || json["id"].toInt() == displayed_order_id)
+            && json["status"].toInt() != 4
             && (displayed_order_status == -1 || displayed_order_status == json["status"].toInt()))
         {
             OrderWidget *order = new OrderWidget(treeWidget);
