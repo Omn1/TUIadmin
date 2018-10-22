@@ -19,7 +19,7 @@ StatisticsEngine::~StatisticsEngine()
 QChart *StatisticsEngine::getRecentDishOrdersChart(int id, int n_days)
 {
     QDate cur_date = QDate::currentDate();
-    cur_date = cur_date.addDays(1-n_days);
+    cur_date = cur_date.addDays(-n_days);
     QBarSet *barSet = new QBarSet("Количество заказов за день");
     QStringList categories;
     for (int i = 0; i < n_days; i++) {
