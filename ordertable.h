@@ -29,6 +29,7 @@ signals:
 public slots:
     void onNewOrders();
 private:
+    void setupTreeWidget();
     QVBoxLayout *mainLayout;
     QComboBox *orderTypeBox;
     QTreeWidget *treeWidget;

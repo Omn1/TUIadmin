@@ -11,19 +11,6 @@ OrderTable::OrderTable(QWidget *parent, JsonDownloader *jsonloader)
     , displayed_order_id(-1)
     , displayed_order_status(-1)
 {
-    //treeWidget->setStyleSheet("OrderInfoWidget{border:1px solid red}");
-    treeWidget->header()->hide();
-    treeWidget->setAnimated(true);
-    treeWidget->setColumnCount(3);
-    treeWidget->setColumnWidth(1,320);
-    treeWidget->setColumnWidth(2,200);
-    treeWidget->setSelectionMode(QAbstractItemView::NoSelection);
-    treeWidget->setFocusPolicy(Qt::NoFocus);
-    treeWidget->setRootIsDecorated(false);
-    treeWidget->setIndentation(0);
-    treeWidget->setExpandsOnDoubleClick(false);
-    treeWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-    //treeWidget->setStyleSheet("QTreeWidget::item { border-bottom: 1px solid black;}");
 
     orderTypeBox->addItem("Все активные заказы",-1);
     orderTypeBox->addItem("Ожидают пожтверждения",0);
@@ -34,24 +21,9 @@ OrderTable::OrderTable(QWidget *parent, JsonDownloader *jsonloader)
     connect(orderTypeBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &OrderTable::onNewOrders);
 
     mainLayout->addWidget(orderTypeBox);
-    mainLayout->addWidget(treeWidget);
-    /*//treeWidget->addTopLevelItem(treeWidgetItem);
 
-    QVBoxLayout *vLayout = new QVBoxLayout;
+    setupTreeWidget();
 
-    vLayout->addWidget(treeWidget);
-
-    QWidget *scrollAreaContent = new QWidget;
-    scrollAreaContent->setLayout(vLayout);
-
-    scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setWidget(scrollAreaContent);
-
-    scrollArea->show();
-
-    //mainLayout->addWidget(scrollArea);
-*/
     setLayout(mainLayout);
 
     if (loader == nullptr) {
@@ -68,7 +40,9 @@ OrderTable::OrderTable(QWidget *parent, JsonDownloader *jsonloader)
 
 void OrderTable::reloadOrders()
 {
-    treeWidget->clear();
+    delete treeWidget;
+    treeWidget = new QTreeWidget;
+    setupTreeWidget();
     displayed_order_status = orderTypeBox->itemData(orderTypeBox->currentIndex()).toInt();
     for (int i = 0; i < orders.size(); i++)
     {
@@ -130,4 +104,20 @@ void OrderTable::onNewOrders()
     orders = loader->getOrders();
 
     reloadOrders();
+}
+
+void OrderTable::setupTreeWidget()
+{
+    treeWidget->header()->hide();
+    treeWidget->setAnimated(true);
+    treeWidget->setColumnCount(3);
+    treeWidget->setColumnWidth(1,320);
+    treeWidget->setColumnWidth(2,200);
+    treeWidget->setSelectionMode(QAbstractItemView::NoSelection);
+    treeWidget->setFocusPolicy(Qt::NoFocus);
+    treeWidget->setRootIsDecorated(false);
+    treeWidget->setIndentation(0);
+    treeWidget->setExpandsOnDoubleClick(false);
+    treeWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    mainLayout->addWidget(treeWidget);
 }
