@@ -19,6 +19,7 @@ public:
     QPushButton *addDishButton;
     QPushButton *addIngredientButton;
     QPushButton *checkDishesButton;
+    QPushButton *checkIngredientsButton;
 private:
     Ui::EditMenuWidget *ui;
 };

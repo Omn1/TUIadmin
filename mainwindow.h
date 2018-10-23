@@ -15,6 +15,7 @@
 #include "ingredientadderwidget.h"
 #include "ingredientsupplierwidget.h"
 #include "authenticationwidget.h"
+#include "ingredienttable.h"
 
 class MainWindow : public QMainWindow
 {
@@ -30,10 +31,11 @@ public slots:
     void openEditMenu();
     void openOrderTable();
     void openDishTable();
-    void openWarehouseTable();
+    void openWarehouseTable(int displayed_ingredient_id = -1);
     void openSupplyWidget();
     void openDishAdder();
     void openIngredientAdder();
+    void openIngredientTable();
 private:
     QWidget *makeWrappedWidget(QWidget *widget);
 

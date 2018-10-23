@@ -1,5 +1,5 @@
-#ifndef WAREHOUSETABLE_H
-#define WAREHOUSETABLE_H
+#ifndef INGREDIENTTABLE_H
+#define INGREDIENTTABLE_H
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -7,25 +7,22 @@
 #include "jsondownloader.h"
 #include "jsonsender.h"
 
-class WarehouseTable : public QWidget
+class IngredientTable : public QWidget
 {
     Q_OBJECT
 public:
-    explicit WarehouseTable(QWidget *parent = nullptr, JsonDownloader *jsonLoader = nullptr);
-
-    void setDisplayedIngredientId(int value);
+    explicit IngredientTable(QWidget *parent = nullptr, JsonDownloader *jsonLoader = nullptr);
 
 signals:
-
+    void checkWarehouse(int);
 public slots:
-    void onNewWarehouseInfo();
+    void onNewIngredients();
 private:
     void setupContents();
     QVBoxLayout *mainLayout;
     QTableWidget *tableWidget;
     JsonDownloader *loader;
     JsonSender *jsonSender;
-    int displayed_ingredient_id;
 };
 
-#endif // WAREHOUSETABLE_H
+#endif // INGREDIENTTABLE_H

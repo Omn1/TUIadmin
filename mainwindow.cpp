@@ -14,10 +14,11 @@ void MainWindow::openAuthenticationWidget()
     setCentralWidget(authenticationWidget);
 }
 
-void MainWindow::openWarehouseTable()
+void MainWindow::openWarehouseTable(int displayed_ingredient_id)
 {
-
-    QWidget *warehouseTablePage = makeWrappedWidget(new WarehouseTable(nullptr, loader));
+    WarehouseTable *warehouseTable = new WarehouseTable(nullptr, loader);
+    warehouseTable->setDisplayedIngredientId(displayed_ingredient_id);
+    QWidget *warehouseTablePage = makeWrappedWidget(warehouseTable);
     setCentralWidget(warehouseTablePage);
 }
 
@@ -39,6 +40,14 @@ void MainWindow::openIngredientAdder()
     setCentralWidget(ingredientAdderPage);
 }
 
+void MainWindow::openIngredientTable()
+{
+    IngredientTable *ingredientTable = new IngredientTable(nullptr, loader);
+    QWidget *ingredientTablePage = makeWrappedWidget(ingredientTable);
+    connect(ingredientTable, &IngredientTable::checkWarehouse, this, &MainWindow::openWarehouseTable);
+    setCentralWidget(ingredientTablePage);
+}
+
 void MainWindow::openOrderTable()
 {
     QWidget *orderTablePage = makeWrappedWidget(new OrderTable(nullptr, loader));
@@ -57,7 +66,7 @@ void MainWindow::openMainMenu()
     MainMenuWidget *mainMenu = new MainMenuWidget;
     connect(mainMenu->checkOrdersButton, &QPushButton::clicked, this, &MainWindow::openOrderTable);
     connect(mainMenu->editMenuButton, &QPushButton::clicked, this, &MainWindow::openEditMenu);
-    connect(mainMenu->checkWarehouseButton, &QPushButton::clicked, this, &MainWindow::openWarehouseTable);
+    connect(mainMenu->checkWarehouseButton, SIGNAL(clicked()), this, SLOT(openWarehouseTable()));
     connect(mainMenu->supplyButton, &QPushButton::clicked, this, &MainWindow::openSupplyWidget);
     setCentralWidget(mainMenu);
 }
@@ -69,6 +78,7 @@ void MainWindow::openEditMenu()
     connect(editMenu->addDishButton, &QPushButton::clicked, this, &MainWindow::openDishAdder);
     connect(editMenu->addIngredientButton, &QPushButton::clicked, this, &MainWindow::openIngredientAdder);
     connect(editMenu->checkDishesButton, &QPushButton::clicked, this, &MainWindow::openDishTable);
+    connect(editMenu->checkIngredientsButton, &QPushButton::clicked, this, &MainWindow::openIngredientTable);
     setCentralWidget(wrappedEditMenu);
 }
 

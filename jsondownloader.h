@@ -25,6 +25,7 @@ public:
     QJsonArray getOrders();
     QJsonArray getWarehouseInfo();
     QJsonArray getDishes();
+    QJsonArray getIngredients();
     QJsonObject getDishById(int id);
     QJsonObject getIngredientById(int id);
     QPixmap getPixmap(const QString &name);

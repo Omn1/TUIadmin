@@ -9,6 +9,7 @@ WarehouseTable::WarehouseTable(QWidget *parent, JsonDownloader *jsonLoader)
     , tableWidget(new QTableWidget)
     , loader(jsonLoader)
     , jsonSender(new JsonSender)
+    , displayed_ingredient_id(-1)
 {
     if(!loader){
         loader = new JsonDownloader;
@@ -23,15 +24,25 @@ WarehouseTable::WarehouseTable(QWidget *parent, JsonDownloader *jsonLoader)
     onNewWarehouseInfo();
 }
 
+void WarehouseTable::setDisplayedIngredientId(int value)
+{
+    if (displayed_ingredient_id != value)
+    {
+        displayed_ingredient_id = value;
+        onNewWarehouseInfo();
+    }
+}
+
 void WarehouseTable::onNewWarehouseInfo()
 {
     QJsonArray tableContent = loader->getWarehouseInfo();
-    tableWidget->setRowCount(tableContent.size());
-    for(int i = 0; i < tableContent.size(); i++){
-        QJsonObject json = tableContent[i].toObject();
-
+    tableWidget->setRowCount(0);
+    for(int item_i = 0; item_i < tableContent.size(); item_i++){
+        QJsonObject json = tableContent[item_i].toObject();
         int supply_id = json["id"].toInt();
         int ingredient_id = json["ingredient_id"].toInt();
+        if (displayed_ingredient_id != -1 && ingredient_id != displayed_ingredient_id)
+            continue;
         QJsonObject ingredientJson = loader->getIngredientById(ingredient_id);
         QString expiry_time_string = ingredientJson["expiry"].toString();
         QStringList expiry_dhm = expiry_time_string.split("-");
@@ -56,6 +67,9 @@ void WarehouseTable::onNewWarehouseInfo()
         qDebug() << red_coef << " " << green_coef << "\n";
 
         QColor backgroundColor(int(255*red_coef), int(255*green_coef), 0, 127);
+
+        int i = tableWidget->rowCount();
+        tableWidget->insertRow(i);
 
         tableWidget->setItem(i, 0, new QTableWidgetItem(QString::number(supply_id)));
         tableWidget->setItem(i, 1, new QTableWidgetItem(QString::number(ingredient_id)));
@@ -101,5 +115,6 @@ void WarehouseTable::setupContents()
     tableWidget->setSelectionMode(QAbstractItemView::NoSelection);
     tableWidget->setFocusPolicy(Qt::NoFocus);
     tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     setLayout(mainLayout);
 }

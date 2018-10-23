@@ -33,6 +33,11 @@ QJsonArray JsonDownloader::getDishes()
     return dishList;
 }
 
+QJsonArray JsonDownloader::getIngredients()
+{
+    return ingredientList;
+}
+
 QJsonObject JsonDownloader::getDishById(int id)
 {
     for (int i = 0; i < dishList.size(); i++)

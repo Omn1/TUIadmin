@@ -56,6 +56,11 @@ void JsonSender::deleteDish(int dish_id)
     makeGetRequest(QUrl(APIurl+"/delete/dish/"+QString::number(dish_id)+"?"+loginInfo));
 }
 
+void JsonSender::deleteIngredient(int ingredient_id)
+{
+    makeGetRequest(QUrl(APIurl+"/delete/ingredient/"+QString::number(ingredient_id)+"?"+loginInfo));
+}
+
 void JsonSender::confirmOrder(int order_id)
 {
     makeGetRequest(QUrl(APIurl+"/confirm/order/"+QString::number(order_id)+"?"+loginInfo));

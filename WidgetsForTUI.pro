@@ -42,7 +42,8 @@ SOURCES += \
     editmenuwidget.cpp \
     statisticsengine.cpp \
     dishtable.cpp \
-    authenticationwidget.cpp
+    authenticationwidget.cpp \
+    ingredienttable.cpp
 
 HEADERS += \
         orderwidget.h \
@@ -63,7 +64,8 @@ HEADERS += \
     editmenuwidget.h \
     statisticsengine.h \
     dishtable.h \
-    authenticationwidget.h
+    authenticationwidget.h \
+    ingredienttable.h
 
 FORMS += \
     ingredientwidget.ui \
