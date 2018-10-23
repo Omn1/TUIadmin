@@ -16,6 +16,7 @@ DishAdderWidget::DishAdderWidget(QWidget *parent, JsonDownloader *jsonLoader)
         loader->start();
     }
 
+    ui->tableWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     ui->tableWidget->setCellWidget(0,1,addButton);
     ui->tableWidget->setColumnWidth(0,500);
     ui->tableWidget->setSelectionMode(QAbstractItemView::NoSelection);
@@ -46,22 +47,22 @@ void DishAdderWidget::onAddButtonClicked()
 
     connect(removeThisButton, &QPushButton::clicked, [item,this]{
         int removedRow = item->row();
-        int removedHeight = this->ui->tableWidget->rowHeight(removedRow);
+        /*int removedHeight = this->ui->tableWidget->rowHeight(removedRow);
         if (this->ui->tableWidget->rowCount()<5) {
             this->setMinimumHeight(this->minimumHeight() - removedHeight);
             this->setMaximumHeight(this->maximumHeight() - removedHeight);
             this->ui->tableWidget->setMinimumHeight(this->ui->tableWidget->height() - removedHeight);
             this->ui->tableWidget->setMaximumHeight(this->ui->tableWidget->height() - removedHeight);
-        }
+        }*/
         this->ui->tableWidget->removeRow(removedRow);
     });
 
-    if (ui->tableWidget->rowCount()<5) {
+    /*if (ui->tableWidget->rowCount()<5) {
         setMinimumHeight(minimumHeight() + newSelector->height());
         setMaximumHeight(maximumHeight() + newSelector->height());
         ui->tableWidget->setMinimumHeight(ui->tableWidget->height() + newSelector->height());
         ui->tableWidget->setMaximumHeight(ui->tableWidget->height() + newSelector->height());
-    }
+    }*/
 }
 
 void DishAdderWidget::onSendButtonClicked()
