@@ -6,6 +6,7 @@
 #include "jsondownloader.h"
 #include "jsonsender.h"
 #include "ingredientselector.h"
+#include "imageselector.h"
 
 namespace Ui {
 class DishAdderWidget;
@@ -28,6 +29,7 @@ private:
     JsonDownloader *loader;
     JsonSender *jsonSender;
     QPushButton *addButton;
+    ImageSelector *imageSelector;
 };
 
 #endif // DISHADDERWIDGET_H

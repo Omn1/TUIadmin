@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "jsondownloader.h"
 #include "jsonsender.h"
+#include "imageselector.h"
 
 namespace Ui {
 class IngredientAdderWidget;
@@ -24,6 +25,7 @@ private:
     Ui::IngredientAdderWidget *ui;
     JsonDownloader *loader;
     JsonSender *jsonSender;
+    ImageSelector *imageSelector;
 };
 
 #endif // INGREDIENTADDERWIDGET_H

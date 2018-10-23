@@ -16,6 +16,9 @@ DishAdderWidget::DishAdderWidget(QWidget *parent, JsonDownloader *jsonLoader)
         loader->start();
     }
 
+    imageSelector = new ImageSelector(nullptr, jsonLoader);
+    ui->gridLayout->addWidget(imageSelector, 5, 2, 1, 2);
+
     ui->tableWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     ui->tableWidget->setCellWidget(0,1,addButton);
     ui->tableWidget->setColumnWidth(0,500);
@@ -78,7 +81,7 @@ QJsonObject DishAdderWidget::getInfo()
     res["cost"] = ui->priceSpinBox->value();
     res["describe"] = ui->descriptionEdit->toPlainText();
     res["tags"] = QJsonArray::fromStringList(ui->tagsEdit->text().split(","));
-    res["photo"] = ui->photoEdit->text();
+    res["photo"] = imageSelector->currentText();
     QJsonArray ingredientsArray;
     for (int i = 0; i < ui->tableWidget->rowCount() - 1; i++) {
         QJsonObject ingredientObj = static_cast<IngredientSelector*>(ui->tableWidget->cellWidget(i,0))->getInfo();

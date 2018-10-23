@@ -64,6 +64,11 @@ QPixmap JsonDownloader::getPixmap(const QString &name)
     return res;
 }
 
+QStringList JsonDownloader::getImageNames()
+{
+    return imageNames;
+}
+
 void JsonDownloader::start()
 {
     if (!started)

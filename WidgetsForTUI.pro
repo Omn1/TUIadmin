@@ -43,7 +43,8 @@ SOURCES += \
     statisticsengine.cpp \
     dishtable.cpp \
     authenticationwidget.cpp \
-    ingredienttable.cpp
+    ingredienttable.cpp \
+    imageselector.cpp
 
 HEADERS += \
         orderwidget.h \
@@ -65,7 +66,8 @@ HEADERS += \
     statisticsengine.h \
     dishtable.h \
     authenticationwidget.h \
-    ingredienttable.h
+    ingredienttable.h \
+    imageselector.h
 
 FORMS += \
     ingredientwidget.ui \

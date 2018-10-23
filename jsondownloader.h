@@ -29,6 +29,7 @@ public:
     QJsonObject getDishById(int id);
     QJsonObject getIngredientById(int id);
     QPixmap getPixmap(const QString &name);
+    QStringList getImageNames();
     void start();
 
     bool downloadPhotosFlag;
