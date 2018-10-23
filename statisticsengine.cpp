@@ -43,6 +43,32 @@ QChart *StatisticsEngine::getRecentDishOrdersChart(int id, int n_days)
     return chart;
 }
 
+QChart *StatisticsEngine::getRecentIncomeChart(int n_days)
+{
+    QDate cur_date = QDate::currentDate();
+    cur_date = cur_date.addDays(-n_days);
+    QBarSet *barSet = new QBarSet("Прибыль за день");
+    QStringList categories;
+    for (int i = 0; i < n_days; i++) {
+        cur_date = cur_date.addDays(1);
+        categories << cur_date.toString("dd.MM.yy");
+        *barSet << getIncomeByDate(cur_date.toString("dd-MM-yyyy"));
+    }
+    QBarSeries *series = new QBarSeries;
+    series->append(barSet);
+    QChart *chart = new QChart;
+    chart->addSeries(series);
+    chart->setAnimationOptions(QChart::SeriesAnimations);
+    QBarCategoryAxis *axis = new QBarCategoryAxis();
+    axis->append(categories);
+    chart->createDefaultAxes();
+    chart->setAxisX(axis, series);
+
+    chart->legend()->setVisible(true);
+    chart->legend()->setAlignment(Qt::AlignBottom);
+    return chart;
+}
+
 int StatisticsEngine::getDishOrdersByDate(int id, QString date)
 {
     int cou = 0;
@@ -58,4 +84,20 @@ int StatisticsEngine::getDishOrdersByDate(int id, QString date)
         }
     }
     return cou;
+}
+
+double StatisticsEngine::getIncomeByDate(QString date)
+{
+    double income = 0;
+    QJsonArray orders = loader->getOrders();
+    for (int i = 0; i < orders.size(); i++) {
+        if (orders[i].toObject()["date"].toString() != date)
+            continue;
+        QJsonArray curDishes = orders[i].toObject()["dishes"].toArray();
+        for (int j = 0; j < curDishes.size(); j++) {
+            QJsonObject dish = curDishes[j].toObject();
+            income += loader->getDishById(dish["id"].toInt())["cost"].toDouble() * dish["number"].toInt();
+        }
+    }
+    return income;
 }

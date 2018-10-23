@@ -16,6 +16,7 @@
 #include "ingredientsupplierwidget.h"
 #include "authenticationwidget.h"
 #include "ingredienttable.h"
+#include "statisticsengine.h"
 
 class MainWindow : public QMainWindow
 {
@@ -36,10 +37,12 @@ public slots:
     void openDishAdder();
     void openIngredientAdder();
     void openIngredientTable();
+    void openIncomeStats();
 private:
     QWidget *makeWrappedWidget(QWidget *widget);
 
     JsonDownloader *loader;
+    StatisticsEngine *statEngine;
 };
 
 #endif // MAINWINDOW_H

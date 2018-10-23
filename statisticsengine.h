@@ -20,8 +20,10 @@ public:
     ~StatisticsEngine();
 
     QChart *getRecentDishOrdersChart(int id, int n_days);
+    QChart *getRecentIncomeChart(int n_days);
 
     int getDishOrdersByDate(int id, QString date);
+    double getIncomeByDate(QString date);
 signals:
 
 public slots:
