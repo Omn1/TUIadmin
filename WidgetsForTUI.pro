@@ -44,7 +44,8 @@ SOURCES += \
     dishtable.cpp \
     authenticationwidget.cpp \
     ingredienttable.cpp \
-    imageselector.cpp
+    imageselector.cpp \
+    wrapperawarewidget.cpp
 
 HEADERS += \
         orderwidget.h \
@@ -67,7 +68,8 @@ HEADERS += \
     dishtable.h \
     authenticationwidget.h \
     ingredienttable.h \
-    imageselector.h
+    imageselector.h \
+    wrapperawarewidget.h
 
 FORMS += \
     ingredientwidget.ui \

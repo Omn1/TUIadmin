@@ -4,10 +4,11 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QTableWidget>
+#include "wrapperawarewidget.h"
 #include "jsondownloader.h"
 #include "jsonsender.h"
 
-class WarehouseTable : public QWidget
+class WarehouseTable : public WrapperAwareWidget
 {
     Q_OBJECT
 public:
@@ -15,6 +16,7 @@ public:
 
     void setDisplayedIngredientId(int value);
 
+    void fillWrapper() override;
 signals:
 
 public slots:

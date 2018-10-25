@@ -6,7 +6,7 @@
 #include <QFile>
 
 WarehouseTable::WarehouseTable(QWidget *parent, JsonDownloader *jsonLoader)
-    : QWidget(parent)
+    : WrapperAwareWidget(parent)
     , mainLayout(new QVBoxLayout)
     , tableWidget(new QTableWidget)
     , loader(jsonLoader)
@@ -33,6 +33,14 @@ void WarehouseTable::setDisplayedIngredientId(int value)
         displayed_ingredient_id = value;
         onNewWarehouseInfo();
     }
+}
+
+void WarehouseTable::fillWrapper()
+{
+    QPushButton *exportButton = new QPushButton("Экспортировать");
+    connect(exportButton, &QPushButton::clicked, this, &WarehouseTable::exportAsCSV);
+    exportButton->setMaximumWidth(150);
+    wrapperLayout->addWidget(exportButton);
 }
 
 void WarehouseTable::onNewWarehouseInfo()
@@ -158,8 +166,5 @@ void WarehouseTable::setupContents()
     tableWidget->setFocusPolicy(Qt::NoFocus);
     tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     tableWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-    QPushButton *exportButton = new QPushButton("Экспортировать");
-    connect(exportButton, &QPushButton::clicked, this, &WarehouseTable::exportAsCSV);
-    mainLayout->addWidget(exportButton);
     setLayout(mainLayout);
 }

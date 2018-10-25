@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "wrapperawarewidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -96,11 +97,19 @@ QWidget * MainWindow::makeWrappedWidget(QWidget *widget)
 {
     QWidget *wrappedWidget = new QWidget;
     QVBoxLayout *vlayout = new QVBoxLayout;
+    QHBoxLayout *hlayout = new QHBoxLayout;
+    hlayout->setAlignment(Qt::AlignLeft);
     QPushButton *returnButton = new QPushButton("Вернуться");
     returnButton->setMaximumWidth(100);
     connect(returnButton, &QPushButton::clicked, this, &MainWindow::openMainMenu);
-    vlayout->addWidget(returnButton);
+    hlayout->addWidget(returnButton);
+    vlayout->addLayout(hlayout);
     vlayout->addWidget(widget);
     wrappedWidget->setLayout(vlayout);
+    WrapperAwareWidget *wrapperAwareWidget = dynamic_cast<WrapperAwareWidget*>(widget);
+    if (wrapperAwareWidget) {
+       wrapperAwareWidget->setWrapperLayout(hlayout);
+       wrapperAwareWidget->fillWrapper();
+    }
     return wrappedWidget;
 }
