@@ -24,6 +24,7 @@ public:
     void deleteDish(int dish_id);
     void deleteIngredient(int ingredient_id);
     void confirmOrder(int order_id);
+    void declineOrder(int order_id);
     void cookOrder(int order_id);
     void authenticate(const QString &login, const QString &password);
     static QString loginInfo;

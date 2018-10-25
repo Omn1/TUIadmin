@@ -26,8 +26,8 @@ void AuthenticationWidget::onLoginButtonPressed()
 void AuthenticationWidget::onLoggedIn(bool success)
 {
     if (success) {
-        QString login = jsonSender->lastAnswer["login"].toString();
-        QString token = jsonSender->lastAnswer["token"].toString();
+        QString login = jsonSender->lastAnswer["res"].toObject()["login"].toString();
+        QString token = jsonSender->lastAnswer["res"].toObject()["token"].toString();
         JsonSender::loginInfo = JsonDownloader::loginInfo = "login="+login+"&token="+token;
         emit authenticationPassed();
     }

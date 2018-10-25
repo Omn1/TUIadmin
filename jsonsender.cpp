@@ -66,6 +66,11 @@ void JsonSender::confirmOrder(int order_id)
     makeGetRequest(QUrl(APIurl+"/confirm/order/"+QString::number(order_id)+"?"+loginInfo));
 }
 
+void JsonSender::declineOrder(int order_id)
+{
+    makeGetRequest(QUrl(APIurl+"/delete/order/"+QString::number(order_id)+"?"+loginInfo));
+}
+
 void JsonSender::cookOrder(int order_id)
 {
     makeGetRequest(QUrl(APIurl+"/cook/order/"+QString::number(order_id)+"?"+loginInfo));
@@ -85,5 +90,6 @@ void JsonSender::onJsonSent(QNetworkReply *reply)
     }
     QByteArray answer = reply->readAll();
     lastAnswer = QJsonDocument::fromJson(answer).object();
-    emit jsonSent(1);
+    int status = lastAnswer["status"].toInt();
+    emit jsonSent(status != 400 && status != 0);
 }

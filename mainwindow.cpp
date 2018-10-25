@@ -54,7 +54,7 @@ void MainWindow::openIncomeStats()
     QChartView *cv = new QChartView(statEngine->getRecentIncomeChart(7));
     cv->setRenderHint(QPainter::Antialiasing);
     cv->setMinimumSize(800,600);
-    cv->show();
+    setCentralWidget(makeWrappedWidget(cv));
 }
 
 void MainWindow::openOrderTable()

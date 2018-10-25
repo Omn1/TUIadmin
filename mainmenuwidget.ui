@@ -40,7 +40,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Смореть готовящиеся заказы</string>
+      <string>Смореть активные заказы</string>
      </property>
     </widget>
    </item>

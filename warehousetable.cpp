@@ -74,7 +74,7 @@ void WarehouseTable::onNewWarehouseInfo()
         tableWidget->setItem(i, 0, new QTableWidgetItem(QString::number(supply_id)));
         tableWidget->setItem(i, 1, new QTableWidgetItem(QString::number(ingredient_id)));
         tableWidget->setItem(i, 2, new QTableWidgetItem(ingredient_title));
-        tableWidget->setItem(i, 3, new QTableWidgetItem(json["mass"].toString()));
+        tableWidget->setItem(i, 3, new QTableWidgetItem(QString::number(json["mass"].toDouble())));
         tableWidget->setItem(i, 4, new QTableWidgetItem(expiry_time_string));
         tableWidget->setItem(i, 5, new QTableWidgetItem(arrival_date_string));
         tableWidget->setItem(i, 6, new QTableWidgetItem(expiry_date.toString("dd-MM-yyyy hh:mm")));

@@ -13,7 +13,7 @@ OrderTable::OrderTable(QWidget *parent, JsonDownloader *jsonloader)
 {
 
     orderTypeBox->addItem("Все активные заказы",-1);
-    orderTypeBox->addItem("Ожидают пожтверждения",0);
+    orderTypeBox->addItem("Ожидают подтверждения",0);
     orderTypeBox->addItem("Готовятся",1);
     orderTypeBox->addItem("Ожидают доставки",2);
     orderTypeBox->addItem("Доставляются",3);
@@ -67,6 +67,13 @@ void OrderTable::reloadOrders()
                     jsonSender->confirmOrder(orderId);
                 });
                 treeWidget->setItemWidget(order,2,confirmButton);
+                QPushButton *declineButton = new QPushButton("Отклонить");
+                declineButton->setMaximumWidth(200);
+                declineButton->setFont(QFont("Sans serif",16));
+                connect(declineButton, &QPushButton::clicked, [this,orderId]{
+                    jsonSender->declineOrder(orderId);
+                });
+                treeWidget->setItemWidget(order,3,declineButton);
             }
             else if (statusInt == 1) {
                 statusText = "Готовится";
@@ -110,9 +117,10 @@ void OrderTable::setupTreeWidget()
 {
     treeWidget->header()->hide();
     treeWidget->setAnimated(true);
-    treeWidget->setColumnCount(3);
+    treeWidget->setColumnCount(4);
     treeWidget->setColumnWidth(1,320);
     treeWidget->setColumnWidth(2,200);
+    treeWidget->setColumnWidth(3,200);
     treeWidget->setSelectionMode(QAbstractItemView::NoSelection);
     treeWidget->setFocusPolicy(Qt::NoFocus);
     treeWidget->setRootIsDecorated(false);
