@@ -1,4 +1,5 @@
 #include "statisticsengine.h"
+#include <QFileDialog>
 
 StatisticsEngine::StatisticsEngine(QObject *parent, JsonDownloader *jsonLoader)
     : QObject(parent)
@@ -67,6 +68,30 @@ QChart *StatisticsEngine::getRecentIncomeChart(int n_days)
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignBottom);
     return chart;
+}
+
+void StatisticsEngine::exportRecentIncomeStatsAsCSV(int n_days)
+{
+    QString fileName = QFileDialog::getSaveFileName(nullptr, "Экспортироваь в CSV", "", "Comma-separated values (*.csv);;All files (*)");
+    if(fileName.isEmpty())
+        return;
+    else{
+        QFile csvFile(fileName);
+        if(csvFile.open(QIODevice::WriteOnly)){
+            QTextStream textStream (&csvFile);
+            QStringList row;
+            QDate cur_date = QDate::currentDate();
+            cur_date = cur_date.addDays(-n_days);
+            textStream << QString("Дата;Прибыль\n");
+            for (int i = 0; i < n_days; i++) {
+                row.clear();
+                cur_date = cur_date.addDays(1);
+                row << cur_date.toString("dd.MM.yy") << QString::number(getIncomeByDate(cur_date.toString("dd-MM-yyyy")));
+                textStream << row.join(';')+"\n";
+            }
+            csvFile.close();
+        }
+    }
 }
 
 int StatisticsEngine::getDishOrdersByDate(int id, QString date)

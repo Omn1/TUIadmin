@@ -45,7 +45,8 @@ SOURCES += \
     authenticationwidget.cpp \
     ingredienttable.cpp \
     imageselector.cpp \
-    wrapperawarewidget.cpp
+    wrapperawarewidget.cpp \
+    incomestatisticspage.cpp
 
 HEADERS += \
         orderwidget.h \
@@ -69,7 +70,8 @@ HEADERS += \
     authenticationwidget.h \
     ingredienttable.h \
     imageselector.h \
-    wrapperawarewidget.h
+    wrapperawarewidget.h \
+    incomestatisticspage.h
 
 FORMS += \
     ingredientwidget.ui \
