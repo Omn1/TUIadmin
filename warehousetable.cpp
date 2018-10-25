@@ -2,6 +2,8 @@
 #include <QPushButton>
 #include <QDate>
 #include <QHeaderView>
+#include <QFileDialog>
+#include <QFile>
 
 WarehouseTable::WarehouseTable(QWidget *parent, JsonDownloader *jsonLoader)
     : QWidget(parent)
@@ -93,6 +95,46 @@ void WarehouseTable::onNewWarehouseInfo()
     }
 }
 
+void WarehouseTable::exportAsCSV()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, "Экспортироваь в CSV", "", "Comma-separated values (*.csv);;All files (*)");
+    if(fileName.isEmpty())
+        return;
+    else{
+        QFile csvFile(fileName);
+        if(csvFile.open(QIODevice::WriteOnly)){
+            QTextStream textStream (&csvFile);
+            QStringList row;
+            QJsonArray tableContent = loader->getWarehouseInfo();
+            textStream << QString("ID;ID ингредиента;Название;Количество;Срок годности;Дата поставки;Дата просрочки\n");
+            for (int item_i = 0; item_i < tableContent.size(); item_i++) {
+                row.clear();
+
+                QJsonObject json = tableContent[item_i].toObject();
+                int supply_id = json["id"].toInt();
+                int ingredient_id = json["ingredient_id"].toInt();
+                if (displayed_ingredient_id != -1 && ingredient_id != displayed_ingredient_id)
+                    continue;
+                QJsonObject ingredientJson = loader->getIngredientById(ingredient_id);
+                QString expiry_time_string = ingredientJson["expiry"].toString();
+                QStringList expiry_dhm = expiry_time_string.split("-");
+                QTime expiry_time(expiry_dhm[1].toInt(), expiry_dhm[2].toInt());
+                QString ingredient_title = ingredientJson["title"].toString();
+                QString arrival_date_string = json["date"].toString();
+                QStringList dmy = arrival_date_string.split("-");
+                QDateTime arrival_date(QDate(dmy[2].toInt(), dmy[1].toInt(), dmy[0].toInt()),QTime(0,0));
+                QDateTime expiry_date = arrival_date;
+                expiry_date = expiry_date.addDays(expiry_dhm[0].toInt());
+                expiry_date = expiry_date.addSecs(expiry_time.hour()*3600 + expiry_time.minute()*60);
+
+                row << QString::number(supply_id) << QString::number(ingredient_id) << ingredient_title << QString::number(json["mass"].toDouble()) << expiry_time_string << arrival_date_string << expiry_date.toString("dd-MM-yyyy hh:mm");
+                textStream << row.join( ';' )+"\n";
+            }
+            csvFile.close();
+        }
+    }
+}
+
 void WarehouseTable::setupContents()
 {
     mainLayout->addWidget(tableWidget);
@@ -116,5 +158,8 @@ void WarehouseTable::setupContents()
     tableWidget->setFocusPolicy(Qt::NoFocus);
     tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     tableWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    QPushButton *exportButton = new QPushButton("Экспортировать");
+    connect(exportButton, &QPushButton::clicked, this, &WarehouseTable::exportAsCSV);
+    mainLayout->addWidget(exportButton);
     setLayout(mainLayout);
 }

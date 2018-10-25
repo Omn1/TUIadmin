@@ -19,6 +19,7 @@ signals:
 
 public slots:
     void onNewWarehouseInfo();
+    void exportAsCSV();
 private:
     void setupContents();
     QVBoxLayout *mainLayout;
