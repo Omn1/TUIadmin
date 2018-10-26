@@ -4,6 +4,7 @@
 #include <QHeaderView>
 #include <QFileDialog>
 #include <QFile>
+#include <QScrollBar>
 
 WarehouseTable::WarehouseTable(QWidget *parent, JsonDownloader *jsonLoader)
     : WrapperAwareWidget(parent)
@@ -45,6 +46,7 @@ void WarehouseTable::fillWrapper()
 
 void WarehouseTable::onNewWarehouseInfo()
 {
+    int scrollBarPosition = tableWidget->verticalScrollBar()->value();
     QJsonArray tableContent = loader->getWarehouseInfo();
     tableWidget->setRowCount(0);
     for(int item_i = 0; item_i < tableContent.size(); item_i++){
@@ -54,6 +56,8 @@ void WarehouseTable::onNewWarehouseInfo()
         if (displayed_ingredient_id != -1 && ingredient_id != displayed_ingredient_id)
             continue;
         QJsonObject ingredientJson = loader->getIngredientById(ingredient_id);
+        if(ingredientJson.empty())
+            continue;
         QString expiry_time_string = ingredientJson["expiry"].toString();
         QStringList expiry_dhm = expiry_time_string.split("-");
         QTime expiry_time(expiry_dhm[1].toInt(), expiry_dhm[2].toInt());
@@ -101,6 +105,7 @@ void WarehouseTable::onNewWarehouseInfo()
                 tableWidget->item(i,j)->setBackgroundColor(backgroundColor);
         }
     }
+    tableWidget->verticalScrollBar()->setValue(scrollBarPosition);
 }
 
 void WarehouseTable::exportAsCSV()

@@ -37,6 +37,7 @@ DishTable::DishTable(QWidget *parent, JsonDownloader *jsonloader)
 
 void DishTable::reloadDishes()
 {
+    int scrollBarPosition = treeWidget->verticalScrollBar()->value();
     treeWidget->clear();
 
     for (int i = 0; i < dishes.size(); i++)
@@ -62,6 +63,8 @@ void DishTable::reloadDishes()
         treeWidget->setItemWidget(dish,1,statsButton);
         treeWidget->setItemWidget(dish,2,deleteButton);
     }
+    treeWidget->verticalScrollBar()->setMaximum(scrollBarPosition);
+    treeWidget->verticalScrollBar()->setValue(scrollBarPosition);
 }
 
 void DishTable::onNewDishes()

@@ -40,6 +40,7 @@ OrderTable::OrderTable(QWidget *parent, JsonDownloader *jsonloader)
 
 void OrderTable::reloadOrders()
 {
+    int scrollBarPosition = treeWidget->verticalScrollBar()->value();
     delete treeWidget;
     treeWidget = new QTreeWidget;
     setupTreeWidget();
@@ -98,6 +99,8 @@ void OrderTable::reloadOrders()
 
         }
     }
+    treeWidget->verticalScrollBar()->setMaximum(scrollBarPosition);
+    treeWidget->verticalScrollBar()->setValue(scrollBarPosition);
 }
 
 void OrderTable::setDisplayedOrder(int displayedOrder)
