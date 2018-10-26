@@ -58,22 +58,19 @@ void WarehouseTable::onNewWarehouseInfo()
         QJsonObject ingredientJson = loader->getIngredientById(ingredient_id);
         if(ingredientJson.empty())
             continue;
-        QString expiry_time_string = ingredientJson["expiry"].toString();
-        QStringList expiry_dhm = expiry_time_string.split("-");
-        QTime expiry_time(expiry_dhm[1].toInt(), expiry_dhm[2].toInt());
+        int expiry_days = ingredientJson["expiry"].toInt();
         QString ingredient_title = ingredientJson["title"].toString();
 
 
         QString arrival_date_string = json["date"].toString();
         QStringList dmy = arrival_date_string.split("-");
-        QDateTime arrival_date(QDate(dmy[2].toInt(), dmy[1].toInt(), dmy[0].toInt()),QTime(0,0));
-        QDateTime expiry_date = arrival_date;
-        expiry_date = expiry_date.addDays(expiry_dhm[0].toInt());
-        expiry_date = expiry_date.addSecs(expiry_time.hour()*3600 + expiry_time.minute()*60);
+        QDate arrival_date(dmy[2].toInt(), dmy[1].toInt(), dmy[0].toInt());
+        QDate expiry_date = arrival_date;
+        expiry_date = expiry_date.addDays(expiry_days);
 
-        int expiry_minutes = (expiry_dhm[0].toInt()*24 + expiry_dhm[1].toInt())*60 + expiry_dhm[2].toInt();
+        int expiry_minutes = expiry_days * 24 * 60;
         QDateTime now_date_time = QDateTime::currentDateTime();
-        int passed_minutes = int((now_date_time.toSecsSinceEpoch() - arrival_date.toSecsSinceEpoch())/60);
+        int passed_minutes = int((now_date_time.toSecsSinceEpoch() - QDateTime(arrival_date,QTime(0,0)).toSecsSinceEpoch())/60);
 
         double red_coef = std::min(1.0,passed_minutes*1.0/expiry_minutes);
         double green_coef = std::max(0.0,1.0 - passed_minutes*1.0/expiry_minutes);
@@ -89,9 +86,9 @@ void WarehouseTable::onNewWarehouseInfo()
         tableWidget->setItem(i, 1, new QTableWidgetItem(QString::number(ingredient_id)));
         tableWidget->setItem(i, 2, new QTableWidgetItem(ingredient_title));
         tableWidget->setItem(i, 3, new QTableWidgetItem(QString::number(json["mass"].toDouble())));
-        tableWidget->setItem(i, 4, new QTableWidgetItem(expiry_time_string));
+        tableWidget->setItem(i, 4, new QTableWidgetItem(QString::number(expiry_days)));
         tableWidget->setItem(i, 5, new QTableWidgetItem(arrival_date_string));
-        tableWidget->setItem(i, 6, new QTableWidgetItem(expiry_date.toString("dd-MM-yyyy hh:mm")));
+        tableWidget->setItem(i, 6, new QTableWidgetItem(expiry_date.toString("dd-MM-yyyy")));
 
         QPushButton *deleteThisButton = new QPushButton("Удалить");
         connect(deleteThisButton, &QPushButton::clicked, [supply_id,this](){
@@ -129,18 +126,19 @@ void WarehouseTable::exportAsCSV()
                 if (displayed_ingredient_id != -1 && ingredient_id != displayed_ingredient_id)
                     continue;
                 QJsonObject ingredientJson = loader->getIngredientById(ingredient_id);
-                QString expiry_time_string = ingredientJson["expiry"].toString();
-                QStringList expiry_dhm = expiry_time_string.split("-");
-                QTime expiry_time(expiry_dhm[1].toInt(), expiry_dhm[2].toInt());
+                if(ingredientJson.empty())
+                    continue;
+                int expiry_days = ingredientJson["expiry"].toInt();
                 QString ingredient_title = ingredientJson["title"].toString();
+
+
                 QString arrival_date_string = json["date"].toString();
                 QStringList dmy = arrival_date_string.split("-");
-                QDateTime arrival_date(QDate(dmy[2].toInt(), dmy[1].toInt(), dmy[0].toInt()),QTime(0,0));
-                QDateTime expiry_date = arrival_date;
-                expiry_date = expiry_date.addDays(expiry_dhm[0].toInt());
-                expiry_date = expiry_date.addSecs(expiry_time.hour()*3600 + expiry_time.minute()*60);
+                QDate arrival_date(dmy[2].toInt(), dmy[1].toInt(), dmy[0].toInt());
+                QDate expiry_date = arrival_date;
+                expiry_date = expiry_date.addDays(expiry_days);
 
-                row << QString::number(supply_id) << QString::number(ingredient_id) << ingredient_title << QString::number(json["mass"].toDouble()) << expiry_time_string << arrival_date_string << expiry_date.toString("dd-MM-yyyy hh:mm");
+                row << QString::number(supply_id) << QString::number(ingredient_id) << ingredient_title << QString::number(json["mass"].toDouble()) << QString::number(expiry_days) << arrival_date_string << expiry_date.toString("dd-MM-yyyy");
                 textStream << row.join( ';' )+"\n";
             }
             csvFile.close();
@@ -162,7 +160,7 @@ void WarehouseTable::setupContents()
     tableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("ID ингредиента"));
     tableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("Название"));
     tableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("Количество"));
-    tableWidget->setHorizontalHeaderItem(4, new QTableWidgetItem("Срок годности"));
+    tableWidget->setHorizontalHeaderItem(4, new QTableWidgetItem("Срок годности (дни)"));
     tableWidget->setHorizontalHeaderItem(5, new QTableWidgetItem("Дата поставки"));
     tableWidget->setHorizontalHeaderItem(6, new QTableWidgetItem("Дата просрочки"));
     tableWidget->setHorizontalHeaderItem(7, new QTableWidgetItem());
