@@ -20,21 +20,8 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="label">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Вход в систему&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_3">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -42,7 +29,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Логин:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Пароль:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
@@ -61,8 +48,8 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_3">
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -70,7 +57,25 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Пароль:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Логин:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="2">
+    <widget class="QPushButton" name="pushButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Войти</string>
      </property>
     </widget>
    </item>
@@ -92,6 +97,26 @@
      </property>
     </widget>
    </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="label">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Вход в систему&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Ресторан:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
    <item row="3" column="0">
     <widget class="QLabel" name="label_4">
      <property name="sizePolicy">
@@ -102,6 +127,16 @@
      </property>
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Сервер:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QComboBox" name="comboBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
     </widget>
    </item>
@@ -120,24 +155,6 @@
      </property>
      <property name="text">
       <string>http://xlvzero.tk:5000</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="2">
-    <widget class="QPushButton" name="pushButton">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>16</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Войти</string>
      </property>
     </widget>
    </item>

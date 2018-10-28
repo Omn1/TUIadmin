@@ -21,9 +21,12 @@ signals:
 public slots:
     void onLoginButtonPressed();
     void onLoggedIn(bool success);
+    void onGotCafeList(bool success);
+    void getCafeList();
 private:
     Ui::AuthenticationWidget *ui;
     JsonSender *jsonSender;
+    JsonSender *cafeJsonSender;
 };
 
 #endif // AUTHENTICATIONWIDGET_H

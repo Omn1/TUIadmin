@@ -76,9 +76,14 @@ void JsonSender::cookOrder(int order_id)
     makeGetRequest(QUrl(APIurl+"/cook/order/"+QString::number(order_id)+"?"+loginInfo));
 }
 
-void JsonSender::authenticate(const QString &login, const QString &password)
+void JsonSender::authenticate(const QString &login, const QString &password, int cafe_id)
 {
-    makeGetRequest(QUrl(APIurl+"/login?login="+login+"&password="+password));
+    makeGetRequest(QUrl(APIurl+"/login?login="+login+"&password="+password+"&cafe_id="+QString::number(cafe_id)));
+}
+
+void JsonSender::getCafeList()
+{
+    makeGetRequest(QUrl(APIurl+"/get/cafes"));
 }
 
 void JsonSender::onJsonSent(QNetworkReply *reply)

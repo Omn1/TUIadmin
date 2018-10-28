@@ -26,7 +26,8 @@ public:
     void confirmOrder(int order_id);
     void declineOrder(int order_id);
     void cookOrder(int order_id);
-    void authenticate(const QString &login, const QString &password);
+    void authenticate(const QString &login, const QString &password, int cafe_id);
+    void getCafeList();
     static QString loginInfo;
     static QString APIurl;
     QJsonObject lastAnswer;
