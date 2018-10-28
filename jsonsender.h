@@ -28,6 +28,7 @@ public:
     void cookOrder(int order_id);
     void authenticate(const QString &login, const QString &password, int cafe_id);
     void getCafeList();
+    void deleteEmployee(int employee_id);
     static QString loginInfo;
     static QString APIurl;
     QJsonObject lastAnswer;

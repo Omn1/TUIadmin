@@ -39,6 +39,7 @@ public slots:
     void openIngredientAdder();
     void openIngredientTable();
     void openIncomeStats();
+    void openEmployeeTable();
 private:
     QWidget *makeWrappedWidget(QWidget *widget);
 

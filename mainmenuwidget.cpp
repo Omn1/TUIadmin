@@ -12,6 +12,7 @@ MainMenuWidget::MainMenuWidget(QWidget *parent)
     supplyButton = ui->supplyButton;
     supplyHistoryButton = ui->supplyHistoryButton;
     statsButton = ui->statsButton;
+    personnelButton = ui->personnelButton;
 }
 
 MainMenuWidget::~MainMenuWidget()

@@ -43,6 +43,11 @@ QJsonArray JsonDownloader::getSupplyHistory()
     return supplyHistoryList;
 }
 
+QJsonArray JsonDownloader::getPersonnelInfo()
+{
+    return personnelList;
+}
+
 QJsonObject JsonDownloader::getDishById(int id)
 {
     for (int i = 0; i < dishList.size(); i++)
@@ -106,6 +111,7 @@ void JsonDownloader::onGetUpdateInfo(QNetworkReply *reply)
     updateIngredientsHash = json["ingredient_hash"].toString();
     updateWarehouseHash = json["supplies_hash"].toString();
     updateSupplyHistoryHash = json["supply_logs_hash"].toString();
+    updatePersonnelHash = json["employees_hash"].toString();
 
     getUpdate();
 }
@@ -263,6 +269,26 @@ void JsonDownloader::onDownloadedSupplyHistory(QNetworkReply *reply)
     getUpdate();
 }
 
+void JsonDownloader::onDownloadedPersonnelInfo(QNetworkReply *reply)
+{
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedPersonnelInfo(QNetworkReply*)));
+
+    if(reply->error())
+    {
+        qDebug() << reply->errorString() << "\n";
+        getPersonnelInfoFromServer();
+        return;
+    }
+
+    QByteArray answer = reply->readAll();
+
+    QJsonObject response = QJsonDocument::fromJson(answer).object();
+
+    personnelList = response["res"].toArray();
+
+    getUpdate();
+}
+
 void JsonDownloader::getUpdate()
 {
     if (downloadPhotosFlag && updateImgHash != currentImgHash)
@@ -286,6 +312,9 @@ void JsonDownloader::getUpdate()
     }
     else if(updateSupplyHistoryHash != currentSupplyHistoryHash){
         getSupplyHistoryFromServer();
+    }
+    else if(updatePersonnelHash != currentPersonnelHash){
+        getPersonnelInfoFromServer();
     }
     else{
         if(was_updated)
@@ -377,5 +406,15 @@ void JsonDownloader::getSupplyHistoryFromServer()
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedSupplyHistory(QNetworkReply*)));
     request.setUrl(QUrl(APIurl+"/get/supply_history"+"?"+loginInfo));
+    manager->get(request);
+}
+
+void JsonDownloader::getPersonnelInfoFromServer()
+{
+    qDebug() << "getPersonnelInfo\n";
+    currentPersonnelHash = updatePersonnelHash;
+    was_updated = 1;
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedPersonnelInfo(QNetworkReply*)));
+    request.setUrl(QUrl(APIurl+"/get/employees"+"?"+loginInfo));
     manager->get(request);
 }

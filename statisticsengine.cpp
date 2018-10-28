@@ -105,7 +105,7 @@ QChart *StatisticsEngine::getRecentIngredientStatsChart(int id, int n_days)
 
 void StatisticsEngine::exportRecentIncomeStatsAsCSV(int n_days)
 {
-    QString fileName = QFileDialog::getSaveFileName(nullptr, "Экспортироваь в CSV", "", "Comma-separated values (*.csv);;All files (*)");
+    QString fileName = QFileDialog::getSaveFileName(nullptr, "Экспортировать в CSV", "", "Comma-separated values (*.csv);;All files (*)");
     if(fileName.isEmpty())
         return;
     else{

@@ -22,6 +22,7 @@ public:
     QPushButton *supplyButton;
     QPushButton *supplyHistoryButton;
     QPushButton *statsButton;
+    QPushButton *personnelButton;
 public slots:
 
 private:

@@ -2,6 +2,7 @@
 #include "wrapperawarewidget.h"
 #include "incomestatisticspage.h"
 #include "supplyhistorytable.h"
+#include "employeetable.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -66,6 +67,11 @@ void MainWindow::openIncomeStats()
     setCentralWidget(makeWrappedWidget(new IncomeStatisticsPage(nullptr, statEngine)));
 }
 
+void MainWindow::openEmployeeTable()
+{
+    setCentralWidget(makeWrappedWidget(new EmployeeTable(nullptr, loader)));
+}
+
 void MainWindow::openOrderTable()
 {
     QWidget *orderTablePage = makeWrappedWidget(new OrderTable(nullptr, loader));
@@ -88,6 +94,7 @@ void MainWindow::openMainMenu()
     connect(mainMenu->supplyButton, &QPushButton::clicked, this, &MainWindow::openSupplyWidget);
     connect(mainMenu->supplyHistoryButton, &QPushButton::clicked, this, &MainWindow::openSupplyHistoryPage);
     connect(mainMenu->statsButton, &QPushButton::clicked, this, &MainWindow::openIncomeStats);
+    connect(mainMenu->personnelButton, &QPushButton::clicked, this, &MainWindow::openEmployeeTable);
     setCentralWidget(mainMenu);
 }
 

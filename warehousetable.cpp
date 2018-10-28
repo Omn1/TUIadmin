@@ -115,7 +115,7 @@ void WarehouseTable::onNewWarehouseInfo()
 
 void WarehouseTable::exportAsCSV()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, "Экспортироваь в CSV", "", "Comma-separated values (*.csv);;All files (*)");
+    QString fileName = QFileDialog::getSaveFileName(this, "Экспортировать в CSV", "", "Comma-separated values (*.csv);;All files (*)");
     if(fileName.isEmpty())
         return;
     else{

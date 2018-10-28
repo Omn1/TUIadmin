@@ -86,6 +86,11 @@ void JsonSender::getCafeList()
     makeGetRequest(QUrl(APIurl+"/get/cafes"));
 }
 
+void JsonSender::deleteEmployee(int employee_id)
+{
+    makeGetRequest(QUrl(APIurl+"/delete/employee/"+QString::number(employee_id)+"?"+loginInfo));
+}
+
 void JsonSender::onJsonSent(QNetworkReply *reply)
 {
     if (reply->error()) {
