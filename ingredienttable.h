@@ -6,6 +6,7 @@
 #include <QTableWidget>
 #include "jsondownloader.h"
 #include "jsonsender.h"
+#include "statisticsengine.h"
 
 class IngredientTable : public QWidget
 {
@@ -23,6 +24,7 @@ private:
     QTableWidget *tableWidget;
     JsonDownloader *loader;
     JsonSender *jsonSender;
+    StatisticsEngine *statEngine;
 };
 
 #endif // INGREDIENTTABLE_H

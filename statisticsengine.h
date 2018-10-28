@@ -21,11 +21,13 @@ public:
 
     QChart *getRecentDishOrdersChart(int id, int n_days);
     QChart *getRecentIncomeChart(int n_days);
+    QChart *getRecentIngredientStatsChart(int id, int n_days);
 
     void exportRecentIncomeStatsAsCSV(int n_days);
 
     int getDishOrdersByDate(int id, QString date);
     double getIncomeByDate(QString date);
+    double getIngredientAmountByDate(int id, int action, QString date);
 signals:
 
 public slots:

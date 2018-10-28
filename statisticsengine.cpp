@@ -70,6 +70,39 @@ QChart *StatisticsEngine::getRecentIncomeChart(int n_days)
     return chart;
 }
 
+QChart *StatisticsEngine::getRecentIngredientStatsChart(int id, int n_days)
+{
+    QDate cur_date = QDate::currentDate();
+    cur_date = cur_date.addDays(-n_days);
+    QBarSet *arrivedSet = new QBarSet("Поставлено");
+    QBarSet *utilizedSet = new QBarSet("Утилизировано");
+    QBarSet *usedSet = new QBarSet("Использовано");
+    QStringList categories;
+    for (int i = 0; i < n_days; i++) {
+        cur_date = cur_date.addDays(1);
+        categories << cur_date.toString("dd.MM.yy");
+        *arrivedSet << getIngredientAmountByDate(id, 0, cur_date.toString("dd-MM-yyyy"));
+        *utilizedSet << getIngredientAmountByDate(id, 1, cur_date.toString("dd-MM-yyyy"));
+        *usedSet << getIngredientAmountByDate(id, 2, cur_date.toString("dd-MM-yyyy"));
+    }
+    QBarSeries *series = new QBarSeries;
+    series->append(arrivedSet);
+    series->append(usedSet);
+    series->append(utilizedSet);
+    QChart *chart = new QChart;
+    chart->addSeries(series);
+    chart->setTitle("Отчет по ингредиенту");
+    chart->setAnimationOptions(QChart::SeriesAnimations);
+    QBarCategoryAxis *axis = new QBarCategoryAxis();
+    axis->append(categories);
+    chart->createDefaultAxes();
+    chart->setAxisX(axis, series);
+
+    chart->legend()->setVisible(true);
+    chart->legend()->setAlignment(Qt::AlignBottom);
+    return chart;
+}
+
 void StatisticsEngine::exportRecentIncomeStatsAsCSV(int n_days)
 {
     QString fileName = QFileDialog::getSaveFileName(nullptr, "Экспортироваь в CSV", "", "Comma-separated values (*.csv);;All files (*)");
@@ -125,4 +158,17 @@ double StatisticsEngine::getIncomeByDate(QString date)
         }
     }
     return income;
+}
+
+double StatisticsEngine::getIngredientAmountByDate(int id, int action, QString date)
+{
+    double mass = 0;
+    QJsonArray supplyHistory = loader->getSupplyHistory();
+    for (int i = 0; i < supplyHistory.size(); i++) {
+        QJsonObject json = supplyHistory[i].toObject();
+        if (json["action"].toInt() == action && json["date"].toString() == date && (id == -1 || id == json["ingredient_id"].toInt())) {
+            mass += json["mass"].toDouble();
+        }
+    }
+    return mass;
 }
