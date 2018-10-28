@@ -34,6 +34,7 @@ public slots:
     void openDishTable();
     void openWarehouseTable(int displayed_ingredient_id = -1);
     void openSupplyWidget();
+    void openSupplyHistoryPage();
     void openDishAdder();
     void openIngredientAdder();
     void openIngredientTable();

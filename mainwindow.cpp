@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "wrapperawarewidget.h"
 #include "incomestatisticspage.h"
+#include "supplyhistorytable.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -29,6 +30,12 @@ void MainWindow::openSupplyWidget()
 {
     QWidget *supplyWidgetPage = makeWrappedWidget(new IngredientSupplierWidget(nullptr, loader));
     setCentralWidget(supplyWidgetPage);
+}
+
+void MainWindow::openSupplyHistoryPage()
+{
+    QWidget *supplyHistoryPage = makeWrappedWidget(new SupplyHistoryTable(nullptr, loader));
+    setCentralWidget(supplyHistoryPage);
 }
 
 void MainWindow::openDishAdder()
@@ -76,6 +83,7 @@ void MainWindow::openMainMenu()
     connect(mainMenu->editMenuButton, &QPushButton::clicked, this, &MainWindow::openEditMenu);
     connect(mainMenu->checkWarehouseButton, SIGNAL(clicked()), this, SLOT(openWarehouseTable()));
     connect(mainMenu->supplyButton, &QPushButton::clicked, this, &MainWindow::openSupplyWidget);
+    connect(mainMenu->supplyHistoryButton, &QPushButton::clicked, this, &MainWindow::openSupplyHistoryPage);
     connect(mainMenu->statsButton, &QPushButton::clicked, this, &MainWindow::openIncomeStats);
     setCentralWidget(mainMenu);
 }

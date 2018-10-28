@@ -26,6 +26,7 @@ public:
     QJsonArray getWarehouseInfo();
     QJsonArray getDishes();
     QJsonArray getIngredients();
+    QJsonArray getSupplyHistory();
     QJsonObject getDishById(int id);
     QJsonObject getIngredientById(int id);
     QPixmap getPixmap(const QString &name);
@@ -43,6 +44,7 @@ public slots:
     void onDownloadedImages(QNetworkReply *reply);
     void onDownloadedPixmap(QNetworkReply *reply);
     void onDownloadedWarehouseInfo(QNetworkReply *reply);
+    void onDownloadedSupplyHistory(QNetworkReply *reply);
 
 signals:
     void updateReady();
@@ -58,6 +60,7 @@ private:
     void getIngredientsFromServer();
     void getOrdersFromServer();
     void getWarehouseInfoFromServer();
+    void getSupplyHistoryFromServer();
 
     bool started;
     bool was_updated;
@@ -67,17 +70,20 @@ private:
     QString updateIngredientsHash;
     QString updateWarehouseHash;
     QString updateImgHash;
+    QString updateSupplyHistoryHash;
 
     QString currentOrdersHash;
     QString currentDishesHash;
     QString currentIngredientsHash;
     QString currentWarehouseHash;
     QString currentImgHash;
+    QString currentSupplyHistoryHash;
 
     QJsonArray dishList;
     QJsonArray orderList;
     QJsonArray ingredientList;
     QJsonArray warehouseList;
+    QJsonArray supplyHistoryList;
 
     QStringList imageNames;
     int cur_img;

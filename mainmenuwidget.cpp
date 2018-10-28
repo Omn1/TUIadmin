@@ -10,6 +10,7 @@ MainMenuWidget::MainMenuWidget(QWidget *parent)
     editMenuButton = ui->editMenuButton;
     checkWarehouseButton = ui->checkWarehouseButton;
     supplyButton = ui->supplyButton;
+    supplyHistoryButton = ui->supplyHistoryButton;
     statsButton = ui->statsButton;
 }
 

@@ -38,6 +38,11 @@ QJsonArray JsonDownloader::getIngredients()
     return ingredientList;
 }
 
+QJsonArray JsonDownloader::getSupplyHistory()
+{
+    return supplyHistoryList;
+}
+
 QJsonObject JsonDownloader::getDishById(int id)
 {
     for (int i = 0; i < dishList.size(); i++)
@@ -100,6 +105,7 @@ void JsonDownloader::onGetUpdateInfo(QNetworkReply *reply)
     updateOrdersHash = json["orders_hash"].toString();
     updateIngredientsHash = json["ingredient_hash"].toString();
     updateWarehouseHash = json["supplies_hash"].toString();
+    updateSupplyHistoryHash = json["supply_logs_hash"].toString();
 
     getUpdate();
 }
@@ -237,6 +243,26 @@ void JsonDownloader::onDownloadedWarehouseInfo(QNetworkReply *reply)
     getUpdate();
 }
 
+void JsonDownloader::onDownloadedSupplyHistory(QNetworkReply *reply)
+{
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedSupplyHistory(QNetworkReply*)));
+
+    if(reply->error())
+    {
+        qDebug() << reply->errorString() << "\n";
+        getSupplyHistoryFromServer();
+        return;
+    }
+
+    QByteArray answer = reply->readAll();
+
+    QJsonObject response = QJsonDocument::fromJson(answer).object();
+
+    supplyHistoryList = response["res"].toArray();
+
+    getUpdate();
+}
+
 void JsonDownloader::getUpdate()
 {
     if (downloadPhotosFlag && updateImgHash != currentImgHash)
@@ -257,6 +283,9 @@ void JsonDownloader::getUpdate()
     }
     else if(updateWarehouseHash != currentWarehouseHash){
         getWarehouseInfoFromServer();
+    }
+    else if(updateSupplyHistoryHash != currentSupplyHistoryHash){
+        getSupplyHistoryFromServer();
     }
     else{
         if(was_updated)
@@ -338,5 +367,15 @@ void JsonDownloader::getWarehouseInfoFromServer()
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedWarehouseInfo(QNetworkReply*)));
     request.setUrl(QUrl(APIurl+"/get/goods"+"?"+loginInfo));
+    manager->get(request);
+}
+
+void JsonDownloader::getSupplyHistoryFromServer()
+{
+    qDebug() << "getSupplyHistory\n";
+    currentSupplyHistoryHash = updateSupplyHistoryHash;
+    was_updated = 1;
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedSupplyHistory(QNetworkReply*)));
+    request.setUrl(QUrl(APIurl+"/get/supply_history"+"?"+loginInfo));
     manager->get(request);
 }

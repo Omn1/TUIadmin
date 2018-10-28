@@ -20,6 +20,7 @@ public:
     QPushButton *editMenuButton;
     QPushButton *checkWarehouseButton;
     QPushButton *supplyButton;
+    QPushButton *supplyHistoryButton;
     QPushButton *statsButton;
 public slots:
 
