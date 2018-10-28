@@ -20,6 +20,7 @@ public:
     QPushButton *addIngredientButton;
     QPushButton *checkDishesButton;
     QPushButton *checkIngredientsButton;
+    QPushButton *uploadPhotoButton;
 private:
     Ui::EditMenuWidget *ui;
 };

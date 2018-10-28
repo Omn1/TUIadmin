@@ -49,7 +49,8 @@ SOURCES += \
     incomestatisticspage.cpp \
     supplyhistorytable.cpp \
     ingredientcombobox.cpp \
-    employeetable.cpp
+    employeetable.cpp \
+    sessioninfo.cpp
 
 HEADERS += \
         orderwidget.h \
@@ -77,7 +78,8 @@ HEADERS += \
     incomestatisticspage.h \
     supplyhistorytable.h \
     ingredientcombobox.h \
-    employeetable.h
+    employeetable.h \
+    sessioninfo.h
 
 FORMS += \
     ingredientwidget.ui \

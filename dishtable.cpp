@@ -1,4 +1,5 @@
 #include "dishtable.h"
+#include "sessioninfo.h"
 
 DishTable::DishTable(QWidget *parent, JsonDownloader *jsonloader)
     : QWidget(parent)
@@ -62,6 +63,7 @@ void DishTable::reloadDishes()
         });
         treeWidget->setItemWidget(dish,1,statsButton);
         treeWidget->setItemWidget(dish,2,deleteButton);
+        deleteButton->setEnabled(SessionInfo::checkPermissions(SessionInfo::MENU_MGR_PERMISSION));
     }
     treeWidget->verticalScrollBar()->setMaximum(scrollBarPosition);
     treeWidget->verticalScrollBar()->setValue(scrollBarPosition);

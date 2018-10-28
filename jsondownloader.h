@@ -35,8 +35,6 @@ public:
     void start();
 
     bool downloadPhotosFlag;
-    static QString loginInfo;
-    static QString APIurl;
 public slots:
     void onGetUpdateInfo(QNetworkReply *reply);
     void onDownloadedOrders(QNetworkReply *reply);

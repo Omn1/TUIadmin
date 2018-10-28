@@ -1,4 +1,5 @@
 #include "warehousetable.h"
+#include "sessioninfo.h"
 #include <QPushButton>
 #include <QDate>
 #include <QHeaderView>
@@ -103,6 +104,7 @@ void WarehouseTable::onNewWarehouseInfo()
             jsonSender->deleteSupply(supply_id);
         });
         tableWidget->setCellWidget(i,7,deleteThisButton);
+        deleteThisButton->setEnabled(SessionInfo::checkPermissions(SessionInfo::WAREHOUSE_MGR_PERMISSION));
 
 
         for (int j = 0; j < tableWidget->columnCount(); j++){

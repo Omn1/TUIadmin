@@ -1,4 +1,5 @@
 #include "employeetable.h"
+#include "sessioninfo.h"
 #include <QHeaderView>
 #include <QScrollBar>
 #include <QPushButton>
@@ -61,6 +62,7 @@ void EmployeeTable::onNewEmployeeInfo()
             jsonSender->deleteEmployee(employee_id);
         });
         tableWidget->setCellWidget(i,10,deleteThisButton);
+        deleteThisButton->setEnabled(SessionInfo::checkPermissions(SessionInfo::PERSONNEL_MGR_PERMISSION | permissions));
     }
     for(int j = 0; j < 4; j++) {
         tableWidget->resizeColumnToContents(j);
@@ -108,7 +110,7 @@ void EmployeeTable::setupContents()
     tableWidget->setColumnCount(11);
     tableWidget->setFont(QFont("Sans serif",12));
     for(int i = 4; i < tableWidget->columnCount(); i++){
-        tableWidget->setColumnWidth(i, 170);
+        tableWidget->setColumnWidth(i, 180);
     }
     tableWidget->verticalHeader()->hide();
     tableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("ID"));

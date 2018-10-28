@@ -1,4 +1,5 @@
 #include "ordertable.h"
+#include "sessioninfo.h"
 #include <QDebug>
 
 OrderTable::OrderTable(QWidget *parent, JsonDownloader *jsonloader)
@@ -68,6 +69,7 @@ void OrderTable::reloadOrders()
                     jsonSender->confirmOrder(orderId);
                 });
                 treeWidget->setItemWidget(order,2,confirmButton);
+                confirmButton->setEnabled(SessionInfo::checkPermissions(SessionInfo::OPERATOR_PERMISSION));
                 QPushButton *declineButton = new QPushButton("Отклонить");
                 declineButton->setMaximumWidth(200);
                 declineButton->setFont(QFont("Sans serif",16));
@@ -75,6 +77,7 @@ void OrderTable::reloadOrders()
                     jsonSender->declineOrder(orderId);
                 });
                 treeWidget->setItemWidget(order,3,declineButton);
+                declineButton->setEnabled(SessionInfo::checkPermissions(SessionInfo::OPERATOR_PERMISSION));
             }
             else if (statusInt == 1) {
                 statusText = "Готовится";
@@ -86,6 +89,7 @@ void OrderTable::reloadOrders()
                     jsonSender->cookOrder(orderId);
                 });
                 treeWidget->setItemWidget(order,2,cookButton);
+                cookButton->setEnabled(SessionInfo::checkPermissions(SessionInfo::COOK_PERMISSION));
             }
             else if (statusInt == 2) {
                 statusText = "Ожидает доставки";

@@ -1,7 +1,5 @@
 #include "jsonsender.h"
-
-QString JsonSender::loginInfo = "";
-QString JsonSender::APIurl = "http://xlvzero.tk:5000";
+#include "sessioninfo.h"
 
 JsonSender::JsonSender(QObject *parent)
     : QObject(parent)
@@ -33,62 +31,62 @@ void JsonSender::sendJsonTo(const QUrl &url, const QJsonObject &json)
 
 void JsonSender::addDish(const QJsonObject &json)
 {
-    sendJsonTo(QUrl(APIurl+"/add/dish"+"?"+loginInfo), json);
+    sendJsonTo(QUrl(SessionInfo::APIurl+"/add/dish"+"?"+SessionInfo::loginInfo), json);
 }
 
 void JsonSender::addIngredent(const QJsonObject &json)
 {
-    sendJsonTo(QUrl(APIurl+"/add/ingredient"+"?"+loginInfo), json);
+    sendJsonTo(QUrl(SessionInfo::APIurl+"/add/ingredient"+"?"+SessionInfo::loginInfo), json);
 }
 
 void JsonSender::supplyIngredient(const QJsonObject &json)
 {
-    sendJsonTo(QUrl(APIurl+"/supply"+"?"+loginInfo), json);
+    sendJsonTo(QUrl(SessionInfo::APIurl+"/supply"+"?"+SessionInfo::loginInfo), json);
 }
 
 void JsonSender::deleteSupply(int supply_id)
 {
-    makeGetRequest(QUrl(APIurl+"/delete/supply/"+QString::number(supply_id)+"?"+loginInfo));
+    makeGetRequest(QUrl(SessionInfo::APIurl+"/delete/supply/"+QString::number(supply_id)+"?"+SessionInfo::loginInfo));
 }
 
 void JsonSender::deleteDish(int dish_id)
 {
-    makeGetRequest(QUrl(APIurl+"/delete/dish/"+QString::number(dish_id)+"?"+loginInfo));
+    makeGetRequest(QUrl(SessionInfo::APIurl+"/delete/dish/"+QString::number(dish_id)+"?"+SessionInfo::loginInfo));
 }
 
 void JsonSender::deleteIngredient(int ingredient_id)
 {
-    makeGetRequest(QUrl(APIurl+"/delete/ingredient/"+QString::number(ingredient_id)+"?"+loginInfo));
+    makeGetRequest(QUrl(SessionInfo::APIurl+"/delete/ingredient/"+QString::number(ingredient_id)+"?"+SessionInfo::loginInfo));
 }
 
 void JsonSender::confirmOrder(int order_id)
 {
-    makeGetRequest(QUrl(APIurl+"/confirm/order/"+QString::number(order_id)+"?"+loginInfo));
+    makeGetRequest(QUrl(SessionInfo::APIurl+"/confirm/order/"+QString::number(order_id)+"?"+SessionInfo::loginInfo));
 }
 
 void JsonSender::declineOrder(int order_id)
 {
-    makeGetRequest(QUrl(APIurl+"/delete/order/"+QString::number(order_id)+"?"+loginInfo));
+    makeGetRequest(QUrl(SessionInfo::APIurl+"/delete/order/"+QString::number(order_id)+"?"+SessionInfo::loginInfo));
 }
 
 void JsonSender::cookOrder(int order_id)
 {
-    makeGetRequest(QUrl(APIurl+"/cook/order/"+QString::number(order_id)+"?"+loginInfo));
+    makeGetRequest(QUrl(SessionInfo::APIurl+"/cook/order/"+QString::number(order_id)+"?"+SessionInfo::loginInfo));
 }
 
 void JsonSender::authenticate(const QString &login, const QString &password, int cafe_id)
 {
-    makeGetRequest(QUrl(APIurl+"/login?login="+login+"&password="+password+"&cafe_id="+QString::number(cafe_id)));
+    makeGetRequest(QUrl(SessionInfo::APIurl+"/login?login="+login+"&password="+password+"&cafe_id="+QString::number(cafe_id)));
 }
 
 void JsonSender::getCafeList()
 {
-    makeGetRequest(QUrl(APIurl+"/get/cafes"));
+    makeGetRequest(QUrl(SessionInfo::APIurl+"/get/cafes"));
 }
 
 void JsonSender::deleteEmployee(int employee_id)
 {
-    makeGetRequest(QUrl(APIurl+"/delete/employee/"+QString::number(employee_id)+"?"+loginInfo));
+    makeGetRequest(QUrl(SessionInfo::APIurl+"/delete/employee/"+QString::number(employee_id)+"?"+SessionInfo::loginInfo));
 }
 
 void JsonSender::onJsonSent(QNetworkReply *reply)

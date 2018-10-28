@@ -1,9 +1,7 @@
 #include "jsondownloader.h"
+#include "sessioninfo.h"
 #include <QDebug>
 #include <QSslSocket>
-
-QString JsonDownloader::loginInfo = "";
-QString JsonDownloader::APIurl = "http://xlvzero.tk:5000";
 
 JsonDownloader::JsonDownloader(QObject *parent, bool downloadPhotosFlag)
     : QObject(parent)
@@ -331,7 +329,7 @@ void JsonDownloader::getUpdateInfo()
     currentOrdersHash = updateOrdersHash;
     was_updated = 0;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onGetUpdateInfo(QNetworkReply*)));
-    request.setUrl(QUrl(APIurl+"/get/state_hashes"+"?"+loginInfo));
+    request.setUrl(QUrl(SessionInfo::APIurl+"/get/state_hashes"+"?"+SessionInfo::loginInfo));
     manager->get(request);
 }
 
@@ -345,7 +343,7 @@ void JsonDownloader::getPixmapFromServer()
     }
     QString pixmapName = imageNames[cur_img];
     connect(imgManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedPixmap(QNetworkReply*)));
-    imgRequest.setUrl(QUrl(APIurl+"/public/" + pixmapName+"?"+loginInfo));
+    imgRequest.setUrl(QUrl(SessionInfo::APIurl+"/public/" + pixmapName+"?"+SessionInfo::loginInfo));
     imgManager->get(imgRequest);
 }
 
@@ -355,7 +353,7 @@ void JsonDownloader::getImages()
     currentImgHash = updateImgHash;
     was_updated = 1;
     connect(imgManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedImages(QNetworkReply*)));
-    imgRequest.setUrl(QUrl(APIurl+"/get/images"+"?"+loginInfo));
+    imgRequest.setUrl(QUrl(SessionInfo::APIurl+"/get/images"+"?"+SessionInfo::loginInfo));
     imgManager->get(imgRequest);
 }
 
@@ -365,7 +363,7 @@ void JsonDownloader::getDishesFromServer()
     currentDishesHash = updateDishesHash;
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedDishes(QNetworkReply*)));
-    request.setUrl(QUrl(APIurl+"/get/dishes"+"?"+loginInfo));
+    request.setUrl(QUrl(SessionInfo::APIurl+"/get/dishes"+"?"+SessionInfo::loginInfo));
     manager->get(request);
 }
 
@@ -375,7 +373,7 @@ void JsonDownloader::getIngredientsFromServer()
     currentIngredientsHash = updateIngredientsHash;
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedIngredients(QNetworkReply*)));
-    request.setUrl(QUrl(APIurl+"/get/ingredients"+"?"+loginInfo));
+    request.setUrl(QUrl(SessionInfo::APIurl+"/get/ingredients"+"?"+SessionInfo::loginInfo));
     manager->get(request);
 }
 
@@ -385,7 +383,7 @@ void JsonDownloader::getOrdersFromServer()
     currentOrdersHash = updateOrdersHash;
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedOrders(QNetworkReply*)));
-    request.setUrl(QUrl(APIurl+"/get/orders"+"?"+loginInfo));
+    request.setUrl(QUrl(SessionInfo::APIurl+"/get/orders"+"?"+SessionInfo::loginInfo));
     manager->get(request);
 }
 
@@ -395,7 +393,7 @@ void JsonDownloader::getWarehouseInfoFromServer()
     currentWarehouseHash = updateWarehouseHash;
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedWarehouseInfo(QNetworkReply*)));
-    request.setUrl(QUrl(APIurl+"/get/goods"+"?"+loginInfo));
+    request.setUrl(QUrl(SessionInfo::APIurl+"/get/goods"+"?"+SessionInfo::loginInfo));
     manager->get(request);
 }
 
@@ -405,7 +403,7 @@ void JsonDownloader::getSupplyHistoryFromServer()
     currentSupplyHistoryHash = updateSupplyHistoryHash;
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedSupplyHistory(QNetworkReply*)));
-    request.setUrl(QUrl(APIurl+"/get/supply_history"+"?"+loginInfo));
+    request.setUrl(QUrl(SessionInfo::APIurl+"/get/supply_history"+"?"+SessionInfo::loginInfo));
     manager->get(request);
 }
 
@@ -415,6 +413,6 @@ void JsonDownloader::getPersonnelInfoFromServer()
     currentPersonnelHash = updatePersonnelHash;
     was_updated = 1;
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onDownloadedPersonnelInfo(QNetworkReply*)));
-    request.setUrl(QUrl(APIurl+"/get/employees"+"?"+loginInfo));
+    request.setUrl(QUrl(SessionInfo::APIurl+"/get/employees"+"?"+SessionInfo::loginInfo));
     manager->get(request);
 }

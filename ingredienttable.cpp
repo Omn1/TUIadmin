@@ -2,6 +2,7 @@
 #include <QHeaderView>
 #include <QPushButton>
 #include "ingredientwidget.h"
+#include "sessioninfo.h"
 
 IngredientTable::IngredientTable(QWidget *parent, JsonDownloader *jsonLoader)
     : QWidget(parent)
@@ -67,6 +68,7 @@ void IngredientTable::onNewIngredients()
             jsonSender->deleteIngredient(ingredient_id);
         });
         tableWidget->setCellWidget(i,5,deleteButton);
+        deleteButton->setEnabled(SessionInfo::checkPermissions(SessionInfo::MENU_MGR_PERMISSION));
     }
 }
 

@@ -1,5 +1,6 @@
 #include "authenticationwidget.h"
 #include "ui_authenticationwidget.h"
+#include "sessioninfo.h"
 
 AuthenticationWidget::AuthenticationWidget(QWidget *parent)
     : QWidget(parent)
@@ -22,8 +23,7 @@ AuthenticationWidget::~AuthenticationWidget()
 
 void AuthenticationWidget::onLoginButtonPressed()
 {
-    JsonSender::APIurl = ui->serverEdit->text();
-    JsonDownloader::APIurl = ui->serverEdit->text();
+    SessionInfo::APIurl = ui->serverEdit->text();
     jsonSender->authenticate(ui->loginEdit->text(), ui->passwordEdit->text(), ui->comboBox->currentData().toInt());
 }
 
@@ -32,7 +32,9 @@ void AuthenticationWidget::onLoggedIn(bool success)
     if (success) {
         QString login = jsonSender->lastAnswer["res"].toObject()["login"].toString();
         QString token = jsonSender->lastAnswer["res"].toObject()["token"].toString();
-        JsonSender::loginInfo = JsonDownloader::loginInfo = "login="+login+"&token="+token;
+        int permissions = jsonSender->lastAnswer["res"].toObject()["permissions"].toInt();
+        SessionInfo::loginInfo = "login="+login+"&token="+token;
+        SessionInfo::permissions = permissions;
         emit authenticationPassed();
     }
 }
@@ -51,6 +53,6 @@ void AuthenticationWidget::onGotCafeList(bool success)
 
 void AuthenticationWidget::getCafeList()
 {
-    JsonSender::APIurl = ui->serverEdit->text();
+    SessionInfo::APIurl = ui->serverEdit->text();
     cafeJsonSender->getCafeList();
 }
