@@ -4,6 +4,7 @@
 #include <QTableWidget>
 #include "wrapperawarewidget.h"
 #include "jsondownloader.h"
+#include "ingredientcombobox.h"
 
 class SupplyHistoryTable : public WrapperAwareWidget
 {
@@ -24,7 +25,7 @@ private:
     QVBoxLayout *mainLayout;
     QTableWidget *tableWidget;
     JsonDownloader *loader;
-    int displayed_ingredient_id;
+    IngredientComboBox *ingredientComboBox;
 };
 
 #endif // SUPPLYHISTORYTABLE_H

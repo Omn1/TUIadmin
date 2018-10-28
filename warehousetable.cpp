@@ -12,7 +12,6 @@ WarehouseTable::WarehouseTable(QWidget *parent, JsonDownloader *jsonLoader)
     , tableWidget(new QTableWidget)
     , loader(jsonLoader)
     , jsonSender(new JsonSender)
-    , displayed_ingredient_id(-1)
 {
     if(!loader){
         loader = new JsonDownloader;
@@ -22,22 +21,30 @@ WarehouseTable::WarehouseTable(QWidget *parent, JsonDownloader *jsonLoader)
     else{
         connect(loader, &JsonDownloader::updateReady, this, &WarehouseTable::onNewWarehouseInfo);
     }
+    ingredientComboBox = new IngredientComboBox(nullptr, loader);
+    connect(ingredientComboBox, QOverload<int>::of(&IngredientComboBox::currentIndexChanged), this, &WarehouseTable::onNewWarehouseInfo);
 
     setupContents();
+    setDisplayedIngredientId(0);
     onNewWarehouseInfo();
 }
 
 void WarehouseTable::setDisplayedIngredientId(int value)
 {
-    if (displayed_ingredient_id != value)
+    if (ingredientComboBox->currentData().toInt() != value)
     {
-        displayed_ingredient_id = value;
-        onNewWarehouseInfo();
+        for (int i = 0; i < ingredientComboBox->count(); i++) {
+            if (ingredientComboBox->itemData(i).toInt() == value) {
+                ingredientComboBox->setCurrentIndex(i);
+                break;
+            }
+        }
     }
 }
 
 void WarehouseTable::fillWrapper()
 {
+    wrapperLayout->addWidget(ingredientComboBox);
     QPushButton *exportButton = new QPushButton("Экспортировать");
     connect(exportButton, &QPushButton::clicked, this, &WarehouseTable::exportAsCSV);
     exportButton->setMaximumWidth(150);
@@ -49,11 +56,12 @@ void WarehouseTable::onNewWarehouseInfo()
     int scrollBarPosition = tableWidget->verticalScrollBar()->value();
     QJsonArray tableContent = loader->getWarehouseInfo();
     tableWidget->setRowCount(0);
+    int displayed_ingredient_id = ingredientComboBox->currentData().toInt();
     for(int item_i = 0; item_i < tableContent.size(); item_i++){
         QJsonObject json = tableContent[item_i].toObject();
         int supply_id = json["id"].toInt();
         int ingredient_id = json["ingredient_id"].toInt();
-        if (displayed_ingredient_id != -1 && ingredient_id != displayed_ingredient_id)
+        if (displayed_ingredient_id != 0 && ingredient_id != displayed_ingredient_id)
             continue;
         QJsonObject ingredientJson = loader->getIngredientById(ingredient_id);
         if(ingredientJson.empty())
@@ -116,6 +124,7 @@ void WarehouseTable::exportAsCSV()
             QTextStream textStream (&csvFile);
             QStringList row;
             QJsonArray tableContent = loader->getWarehouseInfo();
+            int displayed_ingredient_id = ingredientComboBox->currentData().toInt();
             textStream << QString("ID;ID ингредиента;Название;Количество;Срок годности;Дата поставки;Дата просрочки\n");
             for (int item_i = 0; item_i < tableContent.size(); item_i++) {
                 row.clear();
@@ -123,7 +132,7 @@ void WarehouseTable::exportAsCSV()
                 QJsonObject json = tableContent[item_i].toObject();
                 int supply_id = json["id"].toInt();
                 int ingredient_id = json["ingredient_id"].toInt();
-                if (displayed_ingredient_id != -1 && ingredient_id != displayed_ingredient_id)
+                if (displayed_ingredient_id != 0 && ingredient_id != displayed_ingredient_id)
                     continue;
                 QJsonObject ingredientJson = loader->getIngredientById(ingredient_id);
                 if(ingredientJson.empty())

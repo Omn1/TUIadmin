@@ -9,7 +9,6 @@ SupplyHistoryTable::SupplyHistoryTable(QWidget *parent, JsonDownloader *jsonLoad
     , mainLayout(new QVBoxLayout)
     , tableWidget(new QTableWidget)
     , loader(jsonLoader)
-    , displayed_ingredient_id(-1)
 {
     if(!loader){
         loader = new JsonDownloader;
@@ -19,22 +18,30 @@ SupplyHistoryTable::SupplyHistoryTable(QWidget *parent, JsonDownloader *jsonLoad
     else{
         connect(loader, &JsonDownloader::updateReady, this, &SupplyHistoryTable::onNewSupplyHistoryInfo);
     }
+    ingredientComboBox = new IngredientComboBox(nullptr, loader);
+    connect(ingredientComboBox, QOverload<int>::of(&IngredientComboBox::currentIndexChanged), this, &SupplyHistoryTable::onNewSupplyHistoryInfo);
 
     setupContents();
+    setDisplayedIngredientId(0);
     onNewSupplyHistoryInfo();
 }
 
 void SupplyHistoryTable::setDisplayedIngredientId(int value)
 {
-    if (displayed_ingredient_id != value)
+    if (ingredientComboBox->currentData().toInt() != value)
     {
-        displayed_ingredient_id = value;
-        onNewSupplyHistoryInfo();
+        for (int i = 0; i < ingredientComboBox->count(); i++) {
+            if (ingredientComboBox->itemData(i).toInt() == value) {
+                ingredientComboBox->setCurrentIndex(i);
+                break;
+            }
+        }
     }
 }
 
 void SupplyHistoryTable::fillWrapper()
 {
+    wrapperLayout->addWidget(ingredientComboBox);
     QPushButton *exportButton = new QPushButton("Экспортировать");
     connect(exportButton, &QPushButton::clicked, this, &SupplyHistoryTable::exportAsCSV);
     exportButton->setMaximumWidth(150);
@@ -45,12 +52,13 @@ void SupplyHistoryTable::onNewSupplyHistoryInfo()
 {
     int scrollBarPosition = tableWidget->verticalScrollBar()->value();
     QJsonArray tableContent = loader->getSupplyHistory();
+    int displayed_ingredient_id = ingredientComboBox->currentData().toInt();
     tableWidget->setRowCount(0);
     for(int item_i = 0; item_i < tableContent.size(); item_i++){
         QJsonObject json = tableContent[item_i].toObject();
         int supply_id = json["id"].toInt();
         int ingredient_id = json["ingredient_id"].toInt();
-        if (displayed_ingredient_id != -1 && ingredient_id != displayed_ingredient_id)
+        if (displayed_ingredient_id != 0 && ingredient_id != displayed_ingredient_id)
             continue;
         QJsonObject ingredientJson = loader->getIngredientById(ingredient_id);
         if(ingredientJson.empty())
@@ -87,6 +95,7 @@ void SupplyHistoryTable::exportAsCSV()
             QTextStream textStream (&csvFile);
             QStringList row;
             QJsonArray tableContent = loader->getSupplyHistory();
+            int displayed_ingredient_id = ingredientComboBox->currentData().toInt();
             textStream << QString("ID;Дата;Время;Действие;ID ингредиента;Название;Количество\n");
             for (int item_i = 0; item_i < tableContent.size(); item_i++) {
                 row.clear();
@@ -94,7 +103,7 @@ void SupplyHistoryTable::exportAsCSV()
                 QJsonObject json = tableContent[item_i].toObject();
                 int supply_id = json["id"].toInt();
                 int ingredient_id = json["ingredient_id"].toInt();
-                if (displayed_ingredient_id != -1 && ingredient_id != displayed_ingredient_id)
+                if (displayed_ingredient_id != 0 && ingredient_id != displayed_ingredient_id)
                     continue;
                 QJsonObject ingredientJson = loader->getIngredientById(ingredient_id);
                 if(ingredientJson.empty())

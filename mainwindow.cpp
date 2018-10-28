@@ -32,9 +32,11 @@ void MainWindow::openSupplyWidget()
     setCentralWidget(supplyWidgetPage);
 }
 
-void MainWindow::openSupplyHistoryPage()
+void MainWindow::openSupplyHistoryPage(int displayed_ingredient_id)
 {
-    QWidget *supplyHistoryPage = makeWrappedWidget(new SupplyHistoryTable(nullptr, loader));
+    SupplyHistoryTable *supplyHistoryTable = new SupplyHistoryTable(nullptr, loader);
+    supplyHistoryTable->setDisplayedIngredientId(displayed_ingredient_id);
+    QWidget *supplyHistoryPage = makeWrappedWidget(supplyHistoryTable);
     setCentralWidget(supplyHistoryPage);
 }
 
@@ -55,6 +57,7 @@ void MainWindow::openIngredientTable()
     IngredientTable *ingredientTable = new IngredientTable(nullptr, loader);
     QWidget *ingredientTablePage = makeWrappedWidget(ingredientTable);
     connect(ingredientTable, &IngredientTable::checkWarehouse, this, &MainWindow::openWarehouseTable);
+    connect(ingredientTable, &IngredientTable::checkStatsTable, this, &MainWindow::openSupplyHistoryPage);
     setCentralWidget(ingredientTablePage);
 }
 

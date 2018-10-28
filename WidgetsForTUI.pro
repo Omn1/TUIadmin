@@ -47,7 +47,8 @@ SOURCES += \
     imageselector.cpp \
     wrapperawarewidget.cpp \
     incomestatisticspage.cpp \
-    supplyhistorytable.cpp
+    supplyhistorytable.cpp \
+    ingredientcombobox.cpp
 
 HEADERS += \
         orderwidget.h \
@@ -73,7 +74,8 @@ HEADERS += \
     imageselector.h \
     wrapperawarewidget.h \
     incomestatisticspage.h \
-    supplyhistorytable.h
+    supplyhistorytable.h \
+    ingredientcombobox.h
 
 FORMS += \
     ingredientwidget.ui \

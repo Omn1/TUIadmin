@@ -7,6 +7,7 @@
 #include "wrapperawarewidget.h"
 #include "jsondownloader.h"
 #include "jsonsender.h"
+#include "ingredientcombobox.h"
 
 class WarehouseTable : public WrapperAwareWidget
 {
@@ -28,7 +29,7 @@ private:
     QTableWidget *tableWidget;
     JsonDownloader *loader;
     JsonSender *jsonSender;
-    int displayed_ingredient_id;
+    IngredientComboBox *ingredientComboBox;
 };
 
 #endif // WAREHOUSETABLE_H

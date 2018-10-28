@@ -45,21 +45,28 @@ void IngredientTable::onNewIngredients()
         });
         tableWidget->setCellWidget(i,2,warehouseButton);
 
-        QPushButton *statsButton = new QPushButton("Смотреть статистику");
-        statsButton->setFont(QFont("Sans serif",12));
-        connect(statsButton, &QPushButton::clicked, [this,ingredient_id]{
+        QPushButton *statsTableButton = new QPushButton("Смотреть отчет (таблица)");
+        statsTableButton->setFont(QFont("Sans serif",12));
+        connect(statsTableButton, &QPushButton::clicked, [this,ingredient_id]{
+            emit checkStatsTable(ingredient_id);
+        });
+        tableWidget->setCellWidget(i,3,statsTableButton);
+
+        QPushButton *statsChartButton = new QPushButton("Смотреть отчет (график)");
+        statsChartButton->setFont(QFont("Sans serif",12));
+        connect(statsChartButton, &QPushButton::clicked, [this,ingredient_id]{
             QChartView *cv = new QChartView(statEngine->getRecentIngredientStatsChart(ingredient_id,7));
             cv->setRenderHint(QPainter::Antialiasing);
             cv->setMinimumSize(800,600);
             cv->show();
         });
-        tableWidget->setCellWidget(i,3,statsButton);
+        tableWidget->setCellWidget(i,4,statsChartButton);
 
         QPushButton *deleteButton = new QPushButton("Удалить");
         connect(deleteButton, &QPushButton::clicked, [this,ingredient_id]{
             jsonSender->deleteIngredient(ingredient_id);
         });
-        tableWidget->setCellWidget(i,4,deleteButton);
+        tableWidget->setCellWidget(i,5,deleteButton);
     }
 }
 
@@ -67,7 +74,7 @@ void IngredientTable::setupContents()
 {
     mainLayout->addWidget(tableWidget);
     mainLayout->setContentsMargins(0,0,0,0);
-    tableWidget->setColumnCount(5);
+    tableWidget->setColumnCount(6);
     tableWidget->setFont(QFont("Sans serif",12));
     for(int i=0; i<tableWidget->columnCount(); i++)
         tableWidget->setColumnWidth(i,300);
@@ -77,6 +84,7 @@ void IngredientTable::setupContents()
     tableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem(""));
     tableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem(""));
     tableWidget->setHorizontalHeaderItem(4, new QTableWidgetItem(""));
+    tableWidget->setHorizontalHeaderItem(5, new QTableWidgetItem(""));
     tableWidget->setSelectionMode(QAbstractItemView::NoSelection);
     tableWidget->setFocusPolicy(Qt::NoFocus);
     tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);

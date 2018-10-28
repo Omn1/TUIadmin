@@ -32,9 +32,9 @@ public slots:
     void openEditMenu();
     void openOrderTable();
     void openDishTable();
-    void openWarehouseTable(int displayed_ingredient_id = -1);
+    void openWarehouseTable(int displayed_ingredient_id = 0);
     void openSupplyWidget();
-    void openSupplyHistoryPage();
+    void openSupplyHistoryPage(int displayed_ingredient_id = 0);
     void openDishAdder();
     void openIngredientAdder();
     void openIngredientTable();

@@ -16,6 +16,7 @@ public:
 
 signals:
     void checkWarehouse(int);
+    void checkStatsTable(int);
 public slots:
     void onNewIngredients();
 private:
