@@ -25,7 +25,7 @@ void IngredientWidget::setTitle(QString title)
 
 void IngredientWidget::setImage(QPixmap pixmap)
 {
-    ui->imageLabel->setPixmap(pixmap);
+    //ui->imageLabel->setPixmap(pixmap);
 }
 
 void IngredientWidget::loadFromJSON(const QJsonObject &json, JsonDownloader &loader)

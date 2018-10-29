@@ -25,28 +25,12 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="imageLabel">
-   <property name="geometry">
-    <rect>
-     <x>250</x>
-     <y>30</y>
-     <width>41</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QLabel" name="titleLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>30</y>
-     <width>231</width>
+     <width>281</width>
      <height>41</height>
     </rect>
    </property>
