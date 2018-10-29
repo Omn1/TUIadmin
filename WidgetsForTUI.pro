@@ -96,6 +96,7 @@ FORMS += \
 CONFIG += mobility
 MOBILITY = 
 
+RESOURCES += qdarkstyle/style.qrc
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
