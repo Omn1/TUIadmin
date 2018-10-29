@@ -1,5 +1,6 @@
 #include "employeetable.h"
 #include "sessioninfo.h"
+#include "employeeadderwidget.h"
 #include <QHeaderView>
 #include <QScrollBar>
 #include <QPushButton>
@@ -31,6 +32,13 @@ void EmployeeTable::fillWrapper()
     connect(exportButton, &QPushButton::clicked, this, &EmployeeTable::exportAsCSV);
     exportButton->setMaximumWidth(150);
     wrapperLayout->addWidget(exportButton);
+
+    QPushButton *addEmployeeButton = new QPushButton("Добавить сотрудника");
+    connect(addEmployeeButton, &QPushButton::clicked, this, []{
+       (new EmployeeAdderWidget)->show();
+    });
+    addEmployeeButton->setMaximumWidth(200);
+    wrapperLayout->addWidget(addEmployeeButton);
 }
 
 void EmployeeTable::onNewEmployeeInfo()

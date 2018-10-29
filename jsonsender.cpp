@@ -19,7 +19,7 @@ void JsonSender::makeGetRequest(const QUrl &url)
 void JsonSender::sendJsonTo(const QUrl &url, const QJsonObject &json)
 {
     request.setUrl(url);
-
+    qDebug() << json << "\n";
     QJsonDocument jsonDoc(json);
     QByteArray data = jsonDoc.toJson();
 
@@ -89,6 +89,11 @@ void JsonSender::deleteEmployee(int employee_id)
     makeGetRequest(QUrl(SessionInfo::APIurl+"/delete/employee/"+QString::number(employee_id)+"?"+SessionInfo::loginInfo));
 }
 
+void JsonSender::addEmployee(const QJsonObject &json)
+{
+    sendJsonTo(QUrl(SessionInfo::APIurl+"/add/employee"+"?"+SessionInfo::loginInfo), json);
+}
+
 void JsonSender::onJsonSent(QNetworkReply *reply)
 {
     if (reply->error()) {
@@ -98,6 +103,7 @@ void JsonSender::onJsonSent(QNetworkReply *reply)
     }
     QByteArray answer = reply->readAll();
     lastAnswer = QJsonDocument::fromJson(answer).object();
+    qDebug() << lastAnswer << "\n";
     int status = lastAnswer["status"].toInt();
     emit jsonSent(status != 400 && status != 0);
 }

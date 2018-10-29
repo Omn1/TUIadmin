@@ -50,7 +50,8 @@ SOURCES += \
     supplyhistorytable.cpp \
     ingredientcombobox.cpp \
     employeetable.cpp \
-    sessioninfo.cpp
+    sessioninfo.cpp \
+    employeeadderwidget.cpp
 
 HEADERS += \
         orderwidget.h \
@@ -79,7 +80,8 @@ HEADERS += \
     supplyhistorytable.h \
     ingredientcombobox.h \
     employeetable.h \
-    sessioninfo.h
+    sessioninfo.h \
+    employeeadderwidget.h
 
 FORMS += \
     ingredientwidget.ui \
@@ -91,7 +93,8 @@ FORMS += \
     ingredientsupplierwidget.ui \
     mainmenuwidget.ui \
     editmenuwidget.ui \
-    authenticationwidget.ui
+    authenticationwidget.ui \
+    employeeadderwidget.ui
 
 CONFIG += mobility
 MOBILITY = 

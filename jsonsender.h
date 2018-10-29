@@ -29,6 +29,7 @@ public:
     void authenticate(const QString &login, const QString &password, int cafe_id);
     void getCafeList();
     void deleteEmployee(int employee_id);
+    void addEmployee(const QJsonObject &json);
     QJsonObject lastAnswer;
 signals:
     void jsonSent(bool);
