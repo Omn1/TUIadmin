@@ -41,6 +41,7 @@ void IngredientTable::onNewIngredients()
         int ingredient_id = json["id"].toInt();
 
         QPushButton *warehouseButton = new QPushButton("Посмотреть на складе");
+        warehouseButton->setFont(QFont("Sans serif",12));
         connect(warehouseButton, &QPushButton::clicked, [this,ingredient_id]{
             emit checkWarehouse(ingredient_id);
         });
@@ -64,6 +65,7 @@ void IngredientTable::onNewIngredients()
         tableWidget->setCellWidget(i,4,statsChartButton);
 
         QPushButton *deleteButton = new QPushButton("Удалить");
+        deleteButton->setFont(QFont("Sans serif",12));
         connect(deleteButton, &QPushButton::clicked, [this,ingredient_id]{
             jsonSender->deleteIngredient(ingredient_id);
         });
