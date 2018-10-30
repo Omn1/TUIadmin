@@ -25,8 +25,7 @@ QJsonObject IngredientAdderWidget::getInfo()
 {
     QJsonObject res;
     res["title"] = ui->nameEdit->text();
-    res["expiry"] = QString("%1-%2-%3").arg(QString::number(ui->daysSpinBox->value()), QString::number(ui->hoursSpinBox->value()), QString::number(ui->minutesSpinBox->value()));
-    //res["photo"] = ui->photoEdit->text();
+    res["expiry"] = QString::number(ui->daysSpinBox->value());
     return res;
 }
 
