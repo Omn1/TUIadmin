@@ -13,10 +13,6 @@ IngredientAdderWidget::IngredientAdderWidget(QWidget *parent, JsonDownloader *js
         loader = new JsonDownloader;
         loader->start();
     }
-
-    imageSelector = new ImageSelector(nullptr, loader);
-    ui->verticalLayout->addWidget(imageSelector);
-
     connect(ui->sendButton, &QPushButton::clicked, this, &IngredientAdderWidget::onSendButtonClicked);
 }
 
